@@ -696,18 +696,6 @@ The heatmap shows match fractions between assemblies and panel samples that appe
 
 The QC bar plot is created when sample-summary QC columns are available. It displays call rate, missing rate, heterozygosity rate, and fraction of panel markers compared.
 
-### Example Figures
-
-The repository includes example figures generated from the bundled SoySNP50K `gtcheck` outputs in `examples/results/`. These are demonstration figures only; they show what the plotting script produces, not a universal expectation for every species or SNP-chip panel.
-
-![SoySNP50K example top hits lollipop plot](examples/figures/soy50k_example_top_hits_lollipop.png)
-
-![SoySNP50K example rank 1 versus rank 2 gap plot](examples/figures/soy50k_example_rank1_rank2_gap.png)
-
-![SoySNP50K example best-hit match fraction versus sites compared plot](examples/figures/soy50k_example_match_fraction_vs_sites.png)
-
-![SoySNP50K example top-hit heatmap](examples/figures/soy50k_example_top_hit_heatmap.png)
-
 ## Interpreting Results
 
 First look at `sites_compared`. A beautiful match fraction based on 12 sites is not convincing. A slightly lower match fraction based on 20,000 sites may be much stronger evidence.
@@ -743,6 +731,34 @@ rank 2   match_fraction 0.775   sites_compared 290
 ```
 
 This is not enough evidence for a confident identity assignment. Investigate missingness, chromosome naming, reference mismatch, panel compatibility, or the possibility that the assembly is not represented well in the panel.
+
+### Example Figures
+
+The repository includes example figures generated from the bundled SoySNP50K `gtcheck` outputs in `examples/results/`. These are demonstration figures only; they show what the plotting script produces, not a universal expectation for every species or SNP-chip panel.
+
+#### Figure 1. Top Hits Per Assembly
+
+![SoySNP50K example top hits lollipop plot](examples/figures/soy50k_example_top_hits_lollipop.png)
+
+This lollipop plot shows the top-ranked SNP-chip panel matches for each query assembly. Each row is one assembly, each point is one panel sample among the top hits, point color represents rank, and point size reflects `sites_compared`. A strong identity result appears as a rank-1 point with high `match_fraction`, many compared sites, and visible separation from lower-ranked hits. Rows with several points clustered tightly together suggest ambiguous identity, close relatives, or duplicate/near-duplicate panel entries.
+
+#### Figure 2. Rank-1 Versus Rank-2 Separation
+
+![SoySNP50K example rank 1 versus rank 2 gap plot](examples/figures/soy50k_example_rank1_rank2_gap.png)
+
+This plot shows the difference between the best and second-best `match_fraction` for each assembly. Larger values mean the top hit is well separated from the next candidate, which supports a cleaner identity assignment. Very small gaps mean the first and second hits are nearly tied; in those cases, the result may still be useful, but it should be interpreted as a related-line or cluster-level match rather than a uniquely resolved accession.
+
+#### Figure 3. Match Fraction Versus Sites Compared
+
+![SoySNP50K example best-hit match fraction versus sites compared plot](examples/figures/soy50k_example_match_fraction_vs_sites.png)
+
+This scatterplot is the fastest QC overview. The x-axis shows how many SNP-chip markers supported the top comparison, and the y-axis shows the top-hit `match_fraction`. The strongest results are in the upper-right: high concordance supported by many sites. Points with high match fraction but few sites may be promising but under-supported. Points with many sites but lower match fraction often deserve biological or metadata follow-up because the evidence is strong enough to suggest a real mismatch, divergence, or panel-label issue.
+
+#### Figure 4. Top-Hit Match Fraction Heatmap
+
+![SoySNP50K example top-hit heatmap](examples/figures/soy50k_example_top_hit_heatmap.png)
+
+This heatmap summarizes the top-hit neighborhood across assemblies. Rows are query assemblies and columns are panel samples that appeared among the top-ranked hits. Darker green cells indicate higher `match_fraction`, and outlined cells mark rank-1 hits. This view is useful for spotting repeated best hits, clusters of related accessions, and assemblies that share the same small group of candidate panel matches.
 
 ## Why Site Counts Differ
 
