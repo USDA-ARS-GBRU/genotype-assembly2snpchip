@@ -28,6 +28,7 @@ The workflow was motivated by soybean/SoySNP50K work on Sapelo2, but the top-lev
 - [Step 5. Compare to the Panel with `bcftools gtcheck`](#step-5-compare-to-the-panel-with-bcftools-gtcheck)
 - [Step 6. Summarize the Best Matches](#step-6-summarize-the-best-matches)
 - [Step 7. Plot the `gtcheck` Summary](#step-7-plot-the-gtcheck-summary)
+- [Optional PCA and MDS Plots](#optional-pca-and-mds-plots)
 - [Interpreting Results](#interpreting-results)
 - [Why Site Counts Differ](#why-site-counts-differ)
 - [Adapting to Different HPC Systems](#adapting-to-different-hpc-systems)
@@ -133,7 +134,8 @@ Do not map assemblies to one reference genome version and compare them to a SNP-
 │   └── call_panel_variants_and_gtcheck_array.sbatch
 ├── scripts/
 │   ├── summarize_gtcheck_top_hits.py
-│   └── plot_gtcheck_summary.py
+│   ├── plot_gtcheck_summary.py
+│   └── plot_panel_pca_mds.py
 ├── tests/
 │   ├── fixtures/tiny.gtcheck.tsv
 │   ├── run_tiny_test.sh
@@ -171,7 +173,7 @@ On an HPC cluster, load or install:
 - `bcftools`
 - `htslib`, including `bgzip` and `tabix`
 - Python 3
-- `pandas`, `matplotlib`, and `seaborn` for plotting
+- `pandas`, `matplotlib`, `seaborn`, and `scikit-learn` for plotting and PCA/MDS
 
 Install the Python plotting dependencies locally or in a conda environment:
 
@@ -218,7 +220,7 @@ Or create the same environment directly:
 ```bash
 mamba create -n genotype-assembly2snpchip \
   -c conda-forge -c bioconda \
-  python minimap2 samtools bcftools htslib pandas matplotlib seaborn
+  python minimap2 samtools bcftools htslib pandas matplotlib seaborn scikit-learn
 
 mamba activate genotype-assembly2snpchip
 ```
@@ -248,6 +250,7 @@ Run the tests through pixi:
 ```bash
 pixi run test-parser
 pixi run test-plots
+pixi run test-pca
 ```
 
 ### Check the Tools
@@ -258,7 +261,7 @@ After activating your environment, confirm the command-line tools are visible:
 minimap2 --version
 samtools --version
 bcftools --version
-python -c "import pandas, matplotlib, seaborn; print('plotting packages OK')"
+python -c "import pandas, matplotlib, seaborn, sklearn; print('plotting packages OK')"
 ```
 
 ## Inputs
@@ -698,6 +701,72 @@ The match-fraction-vs-sites plot is the fastest visual QC screen. Strong identit
 The heatmap shows match fractions between assemblies and panel samples that appear among the top hits. Rank-1 cells are outlined.
 
 The QC bar plot is created when sample-summary QC columns are available. It displays call rate, missing rate, heterozygosity rate, and fraction of panel markers compared.
+
+## Optional PCA and MDS Plots
+
+PCA and MDS plots are useful companion figures because they show whether assembly-derived SNP-chip genotypes fall in the same genetic neighborhood as their closest panel matches. These plots are not replacements for `gtcheck`; they provide visual context.
+
+This repository includes a Python-only PCA/MDS script:
+
+```bash
+python scripts/plot_panel_pca_mds.py \
+  --panel-vcf work/panel/panel.biallelic.snps.vcf.gz \
+  --query-vcfs results/*.panel.filtered.diploid.vcf.gz \
+  --out-dir figures \
+  --prefix panel_context \
+  --method pca
+```
+
+The script reads VCF/VCF.gz files directly in Python, converts diploid `GT` calls to alternate-allele dosages, filters markers by call rate and minor allele frequency, imputes remaining missing genotypes by marker mean, standardizes markers, and then runs PCA with `scikit-learn`.
+
+Output files include:
+
+```text
+figures/panel_context_pca_coordinates.tsv
+figures/panel_context_pca_pc1_pc2.png
+figures/panel_context_pca_pc1_pc2.svg
+figures/panel_context_pca_pc2_pc3.png
+figures/panel_context_pca_pc2_pc3.svg
+figures/panel_context_matrix_summary.tsv
+```
+
+For smaller sample sets, you can also request MDS:
+
+```bash
+python scripts/plot_panel_pca_mds.py \
+  --panel-vcf work/panel/panel.biallelic.snps.vcf.gz \
+  --query-vcfs results/*.panel.filtered.diploid.vcf.gz \
+  --out-dir figures \
+  --prefix panel_context \
+  --method both \
+  --max-mds-samples 500
+```
+
+MDS is computationally heavier than PCA because it works with relationships among all pairs of samples. For large SNP-chip panels, prefer PCA or use `--panel-samples` / `--max-panel-samples` to plot a focused subset.
+
+Optional metadata can be used for coloring and labels:
+
+```bash
+python scripts/plot_panel_pca_mds.py \
+  --panel-vcf work/panel/panel.biallelic.snps.vcf.gz \
+  --query-vcfs results/*.panel.filtered.diploid.vcf.gz \
+  --metadata sample_metadata.tsv \
+  --sample-column sample \
+  --group-column group \
+  --label-column label \
+  --out-dir figures \
+  --prefix panel_context
+```
+
+The metadata file should be tab-delimited. A minimal example:
+
+```text
+sample	group	label
+PI548402	panel	
+Pekingv3	query	Pekingv3
+```
+
+Interpret PCA/MDS as supportive context. If an assembly's `gtcheck` top hit is convincing, the query point should usually fall near that panel sample or its genetic cluster. If `gtcheck` and PCA/MDS disagree, investigate marker missingness, reference-coordinate compatibility, sample labels, and whether the expected accession is actually represented in the panel.
 
 ## Interpreting Results
 

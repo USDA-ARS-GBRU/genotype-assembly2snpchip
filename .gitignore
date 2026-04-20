@@ -36,3 +36,6 @@ tests/tmp/
 # Keep the bundled teaching example gtcheck files visible.
 !examples/results/
 !examples/results/*.gtcheck.tsv
+
+# Keep tiny synthetic VCF fixtures for tests, while ignoring real VCF inputs.
+!tests/fixtures/*.vcf

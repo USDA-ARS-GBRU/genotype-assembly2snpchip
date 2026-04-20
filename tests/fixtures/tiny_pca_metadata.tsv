@@ -1,0 +1,7 @@
+sample	group	label
+panel_A	panel_cluster_1	
+panel_B	panel_cluster_1	
+panel_C	panel_cluster_2	
+panel_D	panel_cluster_2	
+query_A	query	query_A
+query_C	query	query_C
