@@ -58,6 +58,35 @@ query assembly FASTA
 
 The key idea is that the query VCF should include genotypes at predefined panel positions, including reference matches when they can be called. Then `bcftools gtcheck` can compare the assembly-derived genotype profile to the SNP-chip database.
 
+## Critical Requirement: Use the Panel's Reference Coordinate System
+
+The reference genome used to map the whole-genome assembly must match the reference genome coordinate system used by the SNP-chip panel VCF.
+
+This is not a minor formatting detail. It is the foundation that makes the comparison biologically meaningful.
+
+When this workflow runs:
+
+```bash
+bcftools mpileup -f reference/genome.fa -T panel.biallelic.snps.vcf.gz sample.bam
+```
+
+it is asking:
+
+> At the SNP-chip marker positions, what genotype does this assembly have?
+
+That question only makes sense if `sample.bam` was produced by mapping the assembly to the same reference coordinate system used by `panel.biallelic.snps.vcf.gz`.
+
+At minimum, the mapping reference and the panel VCF must agree on:
+
+- chromosome or contig names,
+- marker positions,
+- REF alleles,
+- coordinate system / reference assembly version.
+
+Best practice is to map assemblies to the exact reference FASTA used to create or coordinate the SNP-chip VCF. If the SNP-chip panel was built on a different reference assembly, lift over, remap, or rebuild the panel VCF onto your chosen reference before running this workflow.
+
+Do not map assemblies to one reference genome version and compare them to a SNP-chip VCF from another reference version without coordinate conversion. A marker such as `Chr03:12345678` may point to a different biological locus in two reference assemblies. That can produce missing sites, REF allele mismatches, inflated discordance, or a convincing-looking but wrong best hit.
+
 ## Repository Layout
 
 ```text
@@ -121,9 +150,9 @@ Most HPC systems use environment modules, but module names differ. The sbatch sc
 
 ### Reference Genome FASTA
 
-Use the same reference coordinate system as the SNP-chip VCF.
+Use the same reference coordinate system as the SNP-chip VCF. In the safest case, this is the exact FASTA used when the SNP-chip panel VCF was generated.
 
-This point matters. `bcftools` will only compare records cleanly when chromosome names, positions, and alleles are compatible. If the panel VCF uses `chr01` but your reference uses `1`, you must rename one of them before running the workflow.
+This point matters. `bcftools` will only compare records cleanly when chromosome names, positions, and alleles are compatible. If the panel VCF uses `chr01` but your reference uses `1`, you must rename one of them before running the workflow. If the panel VCF was built on a different reference genome version, renaming chromosomes is not enough; the marker coordinates and REF alleles may also need to be lifted over or rebuilt.
 
 Required files:
 
@@ -183,6 +212,8 @@ tabix -p vcf data/snp_chip_panel.vcf.gz
 ```
 
 The workflow filters this panel to biallelic SNPs because simple biallelic SNPs are easier to genotype and compare robustly across many samples.
+
+Before running the full workflow, verify that the panel VCF and reference FASTA match. A quick check is to inspect a few panel sites and confirm that the VCF REF allele matches the base in the reference FASTA at the same chromosome and position. A high number of REF mismatches is a warning that the panel and reference do not belong together.
 
 ## Step 1. Map Assemblies to the Reference
 
