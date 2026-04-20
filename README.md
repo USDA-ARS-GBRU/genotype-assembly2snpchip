@@ -35,6 +35,9 @@ The workflow was motivated by soybean/SoySNP50K work on Sapelo2, but the top-lev
 - [Common Problems and Fixes](#common-problems-and-fixes)
 - [Minimal End-to-End Example](#minimal-end-to-end-example)
 - [Teaching Notes](#teaching-notes)
+- [Contributing](#contributing)
+- [Citation](#citation)
+- [License](#license)
 
 ## The Question
 
@@ -924,3 +927,43 @@ Once students understand that distinction, the rest of the workflow becomes logi
 6. Interpret both concordance and the number of sites supporting that concordance.
 
 That reasoning applies whether the crop is soybean, cotton, maize, wheat, or another SNP-chip project.
+
+## Contributing
+
+Contributions, corrections, and suggestions are welcome. The most useful ways to contribute are:
+
+- open an issue describing a bug, confusing documentation, or a feature request,
+- submit a pull request with a focused change,
+- add tested examples for additional HPC systems, crops, SNP-chip panels, or marker databases,
+- improve teaching material for new bioinformatics students.
+
+When submitting a pull request, please keep changes scoped and include enough detail for someone else to reproduce the behavior. For code changes, run the tiny tests before submitting:
+
+```bash
+bash tests/run_tiny_test.sh
+bash tests/run_tiny_plot_test.sh
+```
+
+If your contribution adds a new workflow option, please also update the README or `docs/` notes so the teaching material stays synchronized with the code.
+
+## Citation
+
+If you use this repository in a publication, report, workshop, or training material, please cite the repository and the version or commit used.
+
+Suggested citation format:
+
+```text
+USDA-ARS-GBRU. Genotype Assembly to SNP-Chip Panel: a workflow for validating genome assembly identities against SNP-chip marker panels. GitHub repository: https://github.com/USDA-ARS-GBRU/genotype-assembly2snpchip
+```
+
+For reproducibility, include the commit hash:
+
+```bash
+git rev-parse HEAD
+```
+
+If a DOI is later minted through Zenodo or another archive, cite the DOI in addition to the GitHub repository.
+
+## License
+
+This project is released under the MIT License. See [LICENSE](LICENSE) for details.
