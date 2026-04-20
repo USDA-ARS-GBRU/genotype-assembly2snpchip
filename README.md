@@ -744,6 +744,14 @@ python scripts/plot_panel_pca_mds.py \
 
 MDS is computationally heavier than PCA because it works with relationships among all pairs of samples. For large SNP-chip panels, prefer PCA or use `--panel-samples` / `--max-panel-samples` to plot a focused subset.
 
+### PCA or MDS?
+
+Use PCA as the default choice for most projects. PCA finds the major axes of genotype variation across the panel, so it is fast, stable, and works well when you want to place one or more assemblies into the broader SNP-chip context. On a large panel, PC1 and PC2 often reflect the strongest ancestry, population structure, market class, breeding group, or technical batch effects in the data. PC3 can be useful when the first two axes separate very broad groups and a finer distinction is visible only on a later axis.
+
+Use MDS as a smaller, more distance-focused companion view. MDS tries to place samples in two dimensions so that the plotted distances resemble the genotype distances among samples. This can be intuitive for teaching because nearby points are meant to be genetically similar, but MDS becomes slower as sample count grows because it depends on all sample-by-sample relationships. For large SNP-chip panels, run MDS only on a subset of relevant samples, such as the top `gtcheck` hits plus nearby checks or representative panel groups.
+
+In either case, do not interpret the plot alone. A query assembly plotting near a panel sample is supportive evidence, but the identity call should still be anchored in `gtcheck` match fraction, sites compared, rank separation, and the reference-genome compatibility checks described above.
+
 Optional metadata can be used for coloring and labels:
 
 ```bash
@@ -765,6 +773,22 @@ sample	group	label
 PI548402	panel	
 Pekingv3	query	Pekingv3
 ```
+
+### Example PCA and MDS Figures
+
+The example below uses the tiny synthetic VCF files in `tests/fixtures/`. It is intentionally small, so the exact geometry is not biologically meaningful. The point of the example is to show the expected pattern: assembly-derived query samples should plot near the panel samples or panel clusters that match them.
+
+#### Figure: PCA Context for Query Assemblies
+
+![Example PCA plot for synthetic panel and query samples](examples/figures/tiny_panel_context_pca_pc1_pc2.svg)
+
+**Caption:** PCA places the synthetic query samples into the same coordinate space as the SNP-chip panel samples. In a real project, a query assembly that matches a SNP-chip accession should fall near that accession or its expected genetic cluster. Here, `query_A` falls with the first synthetic panel cluster and `query_C` falls toward the second synthetic panel cluster. Large separation from the expected panel group would suggest checking sample labels, marker overlap, missing data, and reference-genome compatibility.
+
+#### Figure: MDS Context for Query Assemblies
+
+![Example MDS plot for synthetic panel and query samples](examples/figures/tiny_panel_context_mds1_mds2.svg)
+
+**Caption:** MDS provides a distance-oriented view of the same synthetic genotype matrix. Nearby points should have more similar genotype profiles than distant points, but MDS is best used on small or focused subsets because it scales with sample-by-sample relationships. In a real project, use this plot as a companion check after `gtcheck`, not as the primary identity decision.
 
 Interpret PCA/MDS as supportive context. If an assembly's `gtcheck` top hit is convincing, the query point should usually fall near that panel sample or its genetic cluster. If `gtcheck` and PCA/MDS disagree, investigate marker missingness, reference-coordinate compatibility, sample labels, and whether the expected accession is actually represented in the panel.
 
