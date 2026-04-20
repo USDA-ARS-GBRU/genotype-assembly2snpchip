@@ -5,10 +5,11 @@ cd "$(dirname "$0")/.."
 
 out_dir="tests/tmp"
 out_file="$out_dir/tiny_top_hits.tsv"
+PYTHON="${PYTHON:-python3}"
 
 mkdir -p "$out_dir"
 
-python3 -B scripts/summarize_gtcheck_top_hits.py \
+"$PYTHON" -B scripts/summarize_gtcheck_top_hits.py \
     -i tests/fixtures/tiny.gtcheck.tsv \
     -n 2 \
     --min-sites 10 \

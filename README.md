@@ -102,10 +102,12 @@ Do not map assemblies to one reference genome version and compare them to a SNP-
 │   ├── call_panel_variants_and_gtcheck.sbatch
 │   └── call_panel_variants_and_gtcheck_array.sbatch
 ├── scripts/
-│   └── summarize_gtcheck_top_hits.py
+│   ├── summarize_gtcheck_top_hits.py
+│   └── plot_gtcheck_summary.py
 ├── tests/
 │   ├── fixtures/tiny.gtcheck.tsv
-│   └── run_tiny_test.sh
+│   ├── run_tiny_test.sh
+│   └── run_tiny_plot_test.sh
 └── examples/
     ├── README_with_qc_and_sitecount_notes.md
     ├── minimap-A2G.sbatch
@@ -137,8 +139,9 @@ On an HPC cluster, load or install:
 - `bcftools`
 - `htslib`, including `bgzip` and `tabix`
 - Python 3
+- `pandas`, `matplotlib`, and `seaborn` for plotting
 
-The included Python script uses only the Python standard library. The `requirements.txt` file is intentionally empty except for a note, so this command is optional:
+Install the Python plotting dependencies locally or in a conda environment:
 
 ```bash
 python -m pip install -r requirements.txt
@@ -547,6 +550,43 @@ The script is species-agnostic. It does not assume soybean, SoySNP50K, a particu
 
 `match_fraction_gap_rank1_rank2`: in the sample summary file, the difference between the best and second-best hit. A large gap is reassuring; a tiny gap suggests ambiguity or close relatedness.
 
+## Step 7. Plot the `gtcheck` Summary
+
+After generating the top-hit table, create summary figures:
+
+```bash
+python scripts/plot_gtcheck_summary.py \
+  --top-hits results/gtcheck_top10.tsv \
+  --sample-summary results/gtcheck_top10.sample_summary.tsv \
+  --out-dir figures \
+  --prefix gtcheck
+```
+
+The plotting script uses `pandas`, `matplotlib`, and `seaborn`. By default it writes PNG and SVG files:
+
+```text
+figures/gtcheck_top_hits_lollipop.svg
+figures/gtcheck_top_hits_lollipop.png
+figures/gtcheck_rank1_rank2_gap.svg
+figures/gtcheck_rank1_rank2_gap.png
+figures/gtcheck_match_fraction_vs_sites.svg
+figures/gtcheck_match_fraction_vs_sites.png
+figures/gtcheck_top_hit_heatmap.svg
+figures/gtcheck_top_hit_heatmap.png
+figures/gtcheck_query_qc_bars.svg
+figures/gtcheck_query_qc_bars.png
+```
+
+The lollipop plot shows the top-ranked panel matches for each assembly. Point color indicates rank, and point size reflects `sites_compared`.
+
+The rank-gap plot shows the difference between rank 1 and rank 2 match fractions. Large gaps are reassuring. Tiny gaps flag ambiguous cases or closely related panel samples.
+
+The match-fraction-vs-sites plot is the fastest visual QC screen. Strong identity assignments should have both high `top_match_fraction` and many `top_sites_compared`.
+
+The heatmap shows match fractions between assemblies and panel samples that appear among the top hits. Rank-1 cells are outlined.
+
+The QC bar plot is created when sample-summary QC columns are available. It displays call rate, missing rate, heterozygosity rate, and fraction of panel markers compared.
+
 ## Interpreting Results
 
 First look at `sites_compared`. A beautiful match fraction based on 12 sites is not convincing. A slightly lower match fraction based on 20,000 sites may be much stronger evidence.
@@ -625,7 +665,7 @@ For many assemblies, consider converting the loop-style scripts into SLURM array
 
 See [docs/hpc_notes.md](docs/hpc_notes.md) for additional notes on Sapelo2-style modules, SciNet-style environments, HyperGator-style account settings, scratch-space habits, and converting the loop examples into array jobs.
 
-## Testing the Parser
+## Testing the Parser and Plots
 
 Before using real results, you can run a tiny synthetic `gtcheck` parser test:
 
@@ -634,6 +674,19 @@ bash tests/run_tiny_test.sh
 ```
 
 This writes a temporary output file in `tests/tmp/`, compares it to `tests/expected/tiny_top_hits.tsv`, and prints a success message if the parser ranking is working as expected.
+
+After installing the plotting dependencies, you can also test figure generation:
+
+```bash
+bash tests/run_tiny_plot_test.sh
+```
+
+On some HPC systems, set `MPLCONFIGDIR` to a writable scratch or temporary directory before plotting so matplotlib does not try to write cache files under your home directory:
+
+```bash
+export MPLCONFIGDIR="${TMPDIR:-/tmp}/matplotlib-$USER"
+mkdir -p "$MPLCONFIGDIR"
+```
 
 ## Common Problems and Fixes
 
@@ -704,6 +757,16 @@ python scripts/summarize_gtcheck_top_hits.py \
   -n 10 \
   --min-sites 1000 \
   -o results/gtcheck_top10.tsv
+```
+
+Plot the summary:
+
+```bash
+python scripts/plot_gtcheck_summary.py \
+  --top-hits results/gtcheck_top10.tsv \
+  --sample-summary results/gtcheck_top10.sample_summary.tsv \
+  --out-dir figures \
+  --prefix gtcheck
 ```
 
 ## Teaching Notes
