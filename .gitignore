@@ -1,0 +1,35 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+
+# Large workflow inputs and outputs are intentionally not tracked.
+data/
+reference/
+assemblies/
+bams/
+vcfs/
+results/
+logs/
+work/
+
+# Common bioinformatics intermediates.
+*.bam
+*.bai
+*.sam
+*.cram
+*.crai
+*.vcf
+*.vcf.gz
+*.vcf.gz.tbi
+*.vcf.gz.csi
+*.bcf
+*.bcf.csi
+*.fa
+*.fasta
+*.fna
+*.fai
+*.mmi
+
+# Keep the bundled teaching example gtcheck files visible.
+!examples/results/
+!examples/results/*.gtcheck.tsv
