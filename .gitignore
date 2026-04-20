@@ -11,6 +11,7 @@ vcfs/
 results/
 logs/
 work/
+tests/tmp/
 
 # Common bioinformatics intermediates.
 *.bam

@@ -1,0 +1,10 @@
+# This is a tiny synthetic bcftools gtcheck-like fixture.
+# It is not biological data.
+INFO	SM	0	query_A
+DCv2	query_A	panel_match	2	10.0	100	98
+DCv2	query_A	panel_related	5	8.0	100	95
+DCv2	query_A	panel_weak	0	3.0	0	0
+INFO	SM	0	query_B
+DCv2	query_B	panel_bad	20	6.0	100	80
+DCv2	query_B	panel_best	1	7.0	100	99
+DCv2	query_B	panel_low_sites	0	2.0	5	5

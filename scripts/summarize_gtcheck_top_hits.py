@@ -362,7 +362,13 @@ def build_sample_summary(
 def write_tsv(path: Path, rows: list[dict[str, object]], columns: list[str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=columns, delimiter="\t", extrasaction="ignore")
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=columns,
+            delimiter="\t",
+            extrasaction="ignore",
+            lineterminator="\n",
+        )
         writer.writeheader()
         for row in rows:
             writer.writerow({column: fmt(row.get(column)) for column in columns})

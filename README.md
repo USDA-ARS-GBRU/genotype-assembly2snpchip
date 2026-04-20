@@ -64,11 +64,17 @@ The key idea is that the query VCF should include genotypes at predefined panel 
 .
 ├── README.md
 ├── requirements.txt
+├── LICENSE
+├── docs/
+│   └── hpc_notes.md
 ├── sbatch/
 │   ├── map_assemblies_to_reference.sbatch
 │   └── call_panel_variants_and_gtcheck.sbatch
 ├── scripts/
 │   └── summarize_gtcheck_top_hits.py
+├── tests/
+│   ├── fixtures/tiny.gtcheck.tsv
+│   └── run_tiny_test.sh
 └── examples/
     ├── README_with_qc_and_sitecount_notes.md
     ├── minimap-A2G.sbatch
@@ -503,6 +509,18 @@ module load htslib
 On SciNet, Sapelo2, HyperGator, or another university cluster, the exact partition names and module names may differ. The workflow logic stays the same.
 
 For many assemblies, consider converting the loop-style scripts into SLURM array jobs. Arrays are easier to restart because each sample has its own task and log. The current scripts are deliberately loop-style because they are easier for a new student to read from top to bottom.
+
+See [docs/hpc_notes.md](docs/hpc_notes.md) for additional notes on Sapelo2-style modules, SciNet-style environments, HyperGator-style account settings, scratch-space habits, and converting the loop examples into array jobs.
+
+## Testing the Parser
+
+Before using real results, you can run a tiny synthetic `gtcheck` parser test:
+
+```bash
+bash tests/run_tiny_test.sh
+```
+
+This writes a temporary output file in `tests/tmp/`, compares it to `tests/expected/tiny_top_hits.tsv`, and prints a success message if the parser ranking is working as expected.
 
 ## Common Problems and Fixes
 

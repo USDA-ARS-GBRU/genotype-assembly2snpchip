@@ -1,0 +1,5 @@
+query_sample	query_sample_basename	panel_sample	rank	discordance	discordance_per_site	avg_neg_log_hwe	sites_compared	matching_genotypes	match_fraction	confidence_score	source_file
+query_A	query_A	panel_match	1	2	0.02	10	100	98	0.98	1.96	tests/fixtures/tiny.gtcheck.tsv
+query_A	query_A	panel_related	2	5	0.05	8	100	95	0.95	1.9	tests/fixtures/tiny.gtcheck.tsv
+query_B	query_B	panel_best	1	1	0.01	7	100	99	0.99	1.98	tests/fixtures/tiny.gtcheck.tsv
+query_B	query_B	panel_bad	2	20	0.2	6	100	80	0.8	1.6	tests/fixtures/tiny.gtcheck.tsv
