@@ -105,6 +105,7 @@ for bam in "${bamFiles[@]}"; do
     rawVCF="${outDir}/${sample}.soy50k.raw.vcf.gz"
     namedVCF="${outDir}/${sample}.soy50k.named.vcf.gz"
     filtVCF="${outDir}/${sample}.soy50k.filtered.vcf.gz"
+    diploidVCF="${outDir}/${sample}.soy50k.filtered.diploid.vcf.gz"
     gtcheckTSV="${outDir}/${sample}.soy50k.filtered.gtcheck.tsv"
     sampleNameFile="${outDir}/${sample}.sample_name.txt"
     statsTXT="${outDir}/${sample}.soy50k.qc.txt"
@@ -173,15 +174,29 @@ for bam in "${bamFiles[@]}"; do
         echo "[$sample] Filtered VCF already exists, skipping"
     fi
 
+    if [[ ! -s "$diploidVCF" || ! -s "${diploidVCF}.tbi" ]]; then
+        echo "[$sample] Forcing query GT fields to diploid before gtcheck"
+        bcftools +fixploidy \
+            "$filtVCF" \
+            -Oz \
+            -o "$diploidVCF" \
+            -- \
+            -f 2
+        bcftools index -f -t "$diploidVCF"
+    else
+        echo "[$sample] Diploid-normalized VCF already exists, skipping"
+    fi
+
     if [[ ! -s "$gtcheckTSV" ]]; then
-        echo "[$sample] Running gtcheck in GT-vs-GT mode"
+        echo "[$sample] Running gtcheck in GT-vs-GT mode, keeping reference-only sites"
         bcftools gtcheck \
             -u GT,GT \
             -E 0 \
+            --keep-refs \
             -O t \
             -o "$gtcheckTSV" \
             -g "$panelSNP" \
-            "$filtVCF"
+            "$diploidVCF"
     else
         echo "[$sample] gtcheck output already exists, skipping"
     fi
@@ -190,15 +205,15 @@ for bam in "${bamFiles[@]}"; do
     {
         echo -e "sample\t$sample"
         echo -ne "records\t"
-        bcftools view -H "$filtVCF" | wc -l
+        bcftools view -H "$diploidVCF" | wc -l
         echo -ne "called\t"
-        bcftools query -f '[%GT\n]' "$filtVCF" | awk '$1!="./."{n++} END{print n+0}'
+        bcftools query -f '[%GT\n]' "$diploidVCF" | awk '$1!="./."{n++} END{print n+0}'
         echo -ne "missing\t"
-        bcftools query -f '[%GT\n]' "$filtVCF" | awk '$1=="./."{n++} END{print n+0}'
+        bcftools query -f '[%GT\n]' "$diploidVCF" | awk '$1=="./."{n++} END{print n+0}'
         echo -ne "hom\t"
-        bcftools query -f '[%GT\n]' "$filtVCF" | awk '$1=="0/0" || $1=="1/1" || $1=="2/2" || $1=="0|0" || $1=="1|1" || $1=="2|2"{n++} END{print n+0}'
+        bcftools query -f '[%GT\n]' "$diploidVCF" | awk '$1=="0/0" || $1=="1/1" || $1=="2/2" || $1=="0|0" || $1=="1|1" || $1=="2|2"{n++} END{print n+0}'
         echo -ne "het\t"
-        bcftools query -f '[%GT\n]' "$filtVCF" | awk '$1=="0/1" || $1=="1/0" || $1=="0|1" || $1=="1|0" || $1=="1/2" || $1=="2/1" || $1=="1|2" || $1=="2|1"{n++} END{print n+0}'
+        bcftools query -f '[%GT\n]' "$diploidVCF" | awk '$1=="0/1" || $1=="1/0" || $1=="0|1" || $1=="1|0" || $1=="1/2" || $1=="2/1" || $1=="1|2" || $1=="2|1"{n++} END{print n+0}'
     } > "$statsTXT"
 
     echo "[$sample] Done"

@@ -118,7 +118,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--query-vcf-suffix",
-        default=".panel.filtered.vcf.gz",
+        default=".panel.filtered.diploid.vcf.gz",
         help="Suffix used to match a query sample basename to its query VCF.",
     )
     return parser.parse_args()

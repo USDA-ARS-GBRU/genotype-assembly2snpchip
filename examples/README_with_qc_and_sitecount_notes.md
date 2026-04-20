@@ -362,19 +362,37 @@ For assembly-alignment BAMs, depth is often low and should not be judged like re
 
 ---
 
-## Step 4. Compare against the SoySNP50K panel with `bcftools gtcheck`
+## Step 4. Normalize ploidy and compare against the SoySNP50K panel with `bcftools gtcheck`
 
 Recommended settings:
 
 ```bash
+bcftools +fixploidy \
+    sample.soy50k.filtered.vcf.gz \
+    -Oz \
+    -o sample.soy50k.filtered.diploid.vcf.gz \
+    -- \
+    -f 2
+
+bcftools index -f -t sample.soy50k.filtered.diploid.vcf.gz
+
 bcftools gtcheck \
     -u GT,GT \
     -E 0 \
+    --keep-refs \
     -g 05_vcfs_soy50k/panel/soy50k.biallelic.snps.vcf.gz \
-    sample.soy50k.filtered.vcf.gz
+    sample.soy50k.filtered.diploid.vcf.gz
 ```
 
-### Why `-u GT,GT -E 0` matters
+### Why `+fixploidy`, `-u GT,GT -E 0`, and `--keep-refs` matter
+
+`bcftools gtcheck` supports only diploid `FORMAT/GT` fields in this mode. If the query VCF contains haploid genotypes, `gtcheck` can skip those sites and print an alert such as:
+
+```text
+INFO: skipping Gm01:3359478, only diploid FORMAT/GT fields supported.
+```
+
+Running `bcftools +fixploidy -- -f 2` before `gtcheck` forces the query GT fields to diploid and prevents those otherwise useful marker sites from being skipped.
 
 Without care, `gtcheck` can compare query `PL` values against panel `GT` values. That can still rank hits, but the discordance value becomes a score rather than a literal mismatch count.
 
@@ -382,10 +400,13 @@ Using:
 
 - `-u GT,GT`
 - `-E 0`
+- `--keep-refs`
 
 makes the comparison much more interpretable:
 
 > discordance becomes the number of mismatching genotypes among the compared sites.
+
+`--keep-refs` is especially important for reference-like assemblies because reference-state marker genotypes are valid identity evidence. Without it, `gtcheck` excludes monoallelic/reference-only sites and reports a comparison based only on distinctive sites.
 
 That is the cleanest mode for PI-facing interpretation.
 
@@ -627,13 +648,23 @@ bcftools filter \
 
 bcftools index -f -t "$filtVCF"
 
+bcftools +fixploidy \
+    "$filtVCF" \
+    -Oz \
+    -o "$diploidVCF" \
+    -- \
+    -f 2
+
+bcftools index -f -t "$diploidVCF"
+
 bcftools gtcheck \
     -u GT,GT \
     -E 0 \
+    --keep-refs \
     -O t \
     -o "$gtcheckTSV" \
     -g "$panelSNP" \
-    "$filtVCF"
+    "$diploidVCF"
 ```
 
 Then submit with the array size matching the number of BAMs.

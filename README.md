@@ -455,16 +455,36 @@ That is a reasonable starting point, not a universal truth. Assemblies, panels, 
 
 ## Step 5. Compare to the Panel with `bcftools gtcheck`
 
-The script runs:
+Before `gtcheck`, the script forces the query VCF's `GT` field to diploid:
+
+```bash
+bcftools +fixploidy \
+  "$filtered_vcf" \
+  -Oz \
+  -o "$diploid_vcf" \
+  -- \
+  -f 2
+```
+
+This prevents `gtcheck` from skipping sites with an alert like:
+
+```text
+INFO: skipping Gm01:3359478, only diploid FORMAT/GT fields supported.
+```
+
+For this workflow, the query VCF is an assembly-derived marker profile for comparison against a diploid SNP-chip panel. Forcing diploid `GT` fields keeps `gtcheck` from dropping otherwise useful sites because one genotype was represented as haploid.
+
+Then the script runs:
 
 ```bash
 bcftools gtcheck \
   -u GT,GT \
   -E 0 \
+  --keep-refs \
   -O t \
   -o "$gtcheck_tsv" \
   -g "$panel_snps" \
-  "$filtered_vcf"
+  "$diploid_vcf"
 ```
 
 `gtcheck` compares the assembly-derived query genotypes to each sample in the panel VCF.
@@ -474,9 +494,12 @@ The options matter:
 - `-g "$panel_snps"` provides the known panel genotypes.
 - `-u GT,GT` forces genotype-vs-genotype comparison.
 - `-E 0` makes discordance easier to interpret.
+- `--keep-refs` includes reference-only / monoallelic sites in the comparison instead of limiting the output to distinctive sites.
 - `-O t` writes tab-delimited output.
 
 With `-u GT,GT -E 0`, the discordance value is interpretable as the count of mismatching genotypes among compared sites. That is much easier to explain than a likelihood-based score.
+
+The `--keep-refs` option is important for near-reference assemblies. Reference-state genotypes are not boring in identity checking; they are evidence. If they are dropped, a reference-like sample may be compared using only a small subset of distinctive markers, which weakens the very control cases this workflow is designed to handle.
 
 ## Step 6. Summarize the Best Matches
 

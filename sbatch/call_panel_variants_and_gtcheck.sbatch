@@ -87,6 +87,7 @@ for bam in "${bams[@]}"; do
     raw_vcf="$RESULTS_DIR/${sample}.${VCF_SUFFIX}.raw.vcf.gz"
     named_vcf="$RESULTS_DIR/${sample}.${VCF_SUFFIX}.named.vcf.gz"
     filtered_vcf="$RESULTS_DIR/${sample}.${VCF_SUFFIX}.filtered.vcf.gz"
+    diploid_vcf="$RESULTS_DIR/${sample}.${VCF_SUFFIX}.filtered.diploid.vcf.gz"
     gtcheck_tsv="$RESULTS_DIR/${sample}.gtcheck.tsv"
     sample_name_file="$RESULTS_DIR/${sample}.sample_name.txt"
     qc_tsv="$RESULTS_DIR/${sample}.${VCF_SUFFIX}.qc.tsv"
@@ -142,26 +143,37 @@ for bam in "${bams[@]}"; do
         bcftools index -f -t "$filtered_vcf"
     fi
 
+    if [[ ! -s "$diploid_vcf" || ! -s "${diploid_vcf}.tbi" ]]; then
+        bcftools +fixploidy \
+            "$filtered_vcf" \
+            -Oz \
+            -o "$diploid_vcf" \
+            -- \
+            -f 2
+        bcftools index -f -t "$diploid_vcf"
+    fi
+
     if [[ ! -s "$gtcheck_tsv" ]]; then
         bcftools gtcheck \
             -u GT,GT \
             -E 0 \
+            --keep-refs \
             -O t \
             -o "$gtcheck_tsv" \
             -g "$panel_snps" \
-            "$filtered_vcf"
+            "$diploid_vcf"
     fi
 
     {
         echo -e "metric\tvalue"
         echo -ne "records\t"
-        bcftools view -H "$filtered_vcf" | wc -l
+        bcftools view -H "$diploid_vcf" | wc -l
         echo -ne "called\t"
-        bcftools query -f '[%GT\n]' "$filtered_vcf" | awk '$1!="./." && $1!="."{n++} END{print n+0}'
+        bcftools query -f '[%GT\n]' "$diploid_vcf" | awk '$1!="./." && $1!="."{n++} END{print n+0}'
         echo -ne "missing\t"
-        bcftools query -f '[%GT\n]' "$filtered_vcf" | awk '$1=="./." || $1=="."{n++} END{print n+0}'
+        bcftools query -f '[%GT\n]' "$diploid_vcf" | awk '$1=="./." || $1=="."{n++} END{print n+0}'
         echo -ne "heterozygous\t"
-        bcftools query -f '[%GT\n]' "$filtered_vcf" | awk '$1=="0/1" || $1=="1/0" || $1=="0|1" || $1=="1|0"{n++} END{print n+0}'
+        bcftools query -f '[%GT\n]' "$diploid_vcf" | awk '$1=="0/1" || $1=="1/0" || $1=="0|1" || $1=="1|0"{n++} END{print n+0}'
     } > "$qc_tsv"
 
     echo "[$sample] Wrote $gtcheck_tsv"

@@ -163,11 +163,14 @@ bcftools call
 
 bcftools gtcheck
 
--u GT,GT -E 0
+-u GT,GT -E 0 --keep-refs
 
 → ensures:
     •   genotype vs genotype comparison
     •   discordance = actual mismatch count
+    •   reference-only / monoallelic sites are retained in the comparison
+
+Before gtcheck, run bcftools +fixploidy with -- -f 2 on the filtered query VCF so haploid GT fields are converted to diploid GT fields. This prevents gtcheck from skipping sites with the alert "only diploid FORMAT/GT fields supported."
 
 ⸻
 
@@ -178,6 +181,7 @@ Per sample:
 sample.soy50k.raw.vcf.gz
 sample.soy50k.named.vcf.gz
 sample.soy50k.filtered.vcf.gz
+sample.soy50k.filtered.diploid.vcf.gz
 sample.soy50k.filtered.gtcheck.tsv
 sample.soy50k.qc.txt
 
@@ -313,4 +317,3 @@ Future Extensions
 Bottom Line
 
 This workflow transforms genome assemblies into panel-compatible genotype profiles, enabling robust and interpretable identity validation against a large soybean reference population.
-
