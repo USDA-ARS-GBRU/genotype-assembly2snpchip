@@ -13,7 +13,7 @@ results/
 logs/
 work/
 tests/tmp/
-figures/
+/figures/
 
 # Common bioinformatics intermediates.
 *.bam

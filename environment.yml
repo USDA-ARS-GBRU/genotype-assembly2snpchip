@@ -1,0 +1,13 @@
+name: genotype-assembly2snpchip
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python>=3.9
+  - minimap2
+  - samtools
+  - bcftools
+  - htslib
+  - pandas>=1.5
+  - matplotlib>=3.7
+  - seaborn>=0.12

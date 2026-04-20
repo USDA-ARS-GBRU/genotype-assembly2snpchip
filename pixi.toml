@@ -1,0 +1,20 @@
+[project]
+name = "genotype-assembly2snpchip"
+version = "0.1.0"
+description = "Validate genome assembly identities against SNP-chip marker panels."
+channels = ["conda-forge", "bioconda"]
+platforms = ["linux-64", "osx-64", "osx-arm64"]
+
+[dependencies]
+python = ">=3.9"
+minimap2 = "*"
+samtools = "*"
+bcftools = "*"
+htslib = "*"
+pandas = ">=1.5"
+matplotlib = ">=3.7"
+seaborn = ">=0.12"
+
+[tasks]
+test-parser = "bash tests/run_tiny_test.sh"
+test-plots = "bash tests/run_tiny_plot_test.sh"

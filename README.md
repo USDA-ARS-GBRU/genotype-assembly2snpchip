@@ -11,6 +11,31 @@ The same idea can be used for soybean, cotton, maize, wheat, sorghum, peanut, or
 
 The workflow was motivated by soybean/SoySNP50K work on Sapelo2, but the top-level code and documentation are intentionally species-agnostic. The soybean-specific material is kept in `examples/` as a concrete case study.
 
+## Table of Contents
+
+- [The Question](#the-question)
+- [Why Not Just Call Whole-Genome Variants?](#why-not-just-call-whole-genome-variants)
+- [Workflow Overview](#workflow-overview)
+- [Critical Requirement: Use the Panel's Reference Coordinate System](#critical-requirement-use-the-panels-reference-coordinate-system)
+- [Repository Layout](#repository-layout)
+- [Software Requirements](#software-requirements)
+- [Environment Setup](#environment-setup)
+- [Inputs](#inputs)
+- [Step 1. Map Assemblies to the Reference](#step-1-map-assemblies-to-the-reference)
+- [Step 2. Prepare the SNP-Chip Panel](#step-2-prepare-the-snp-chip-panel)
+- [Step 3. Genotype Each Assembly at Panel Sites](#step-3-genotype-each-assembly-at-panel-sites)
+- [Step 4. Set Weak Calls to Missing](#step-4-set-weak-calls-to-missing)
+- [Step 5. Compare to the Panel with `bcftools gtcheck`](#step-5-compare-to-the-panel-with-bcftools-gtcheck)
+- [Step 6. Summarize the Best Matches](#step-6-summarize-the-best-matches)
+- [Step 7. Plot the `gtcheck` Summary](#step-7-plot-the-gtcheck-summary)
+- [Interpreting Results](#interpreting-results)
+- [Why Site Counts Differ](#why-site-counts-differ)
+- [Adapting to Different HPC Systems](#adapting-to-different-hpc-systems)
+- [Testing the Parser and Plots](#testing-the-parser-and-plots)
+- [Common Problems and Fixes](#common-problems-and-fixes)
+- [Minimal End-to-End Example](#minimal-end-to-end-example)
+- [Teaching Notes](#teaching-notes)
+
 ## The Question
 
 The biological question is simple:
@@ -93,6 +118,8 @@ Do not map assemblies to one reference genome version and compare them to a SNP-
 .
 ├── README.md
 ├── requirements.txt
+├── environment.yml
+├── pixi.toml
 ├── LICENSE
 ├── docs/
 │   └── hpc_notes.md
@@ -112,6 +139,8 @@ Do not map assemblies to one reference genome version and compare them to a SNP-
     ├── README_with_qc_and_sitecount_notes.md
     ├── minimap-A2G.sbatch
     ├── soy50k_gtcheck_from_asm20.sbatch
+    ├── figures/
+    │   └── soy50k_example_*.png
     └── results/
         └── *.gtcheck.tsv
 ```
@@ -148,6 +177,86 @@ python -m pip install -r requirements.txt
 ```
 
 Most HPC systems use environment modules, but module names differ. The sbatch scripts include generic module-loading lines plus examples from Sapelo2-style names. Edit those lines for your cluster.
+
+## Environment Setup
+
+You can use modules, conda/mamba, or pixi. On many university clusters, modules are preferred for production jobs because they are maintained by the HPC staff. Conda, mamba, and pixi are useful for teaching, local testing, and clusters where the needed tool versions are not available as modules.
+
+### Option A. HPC Modules
+
+Module names differ by cluster, but the idea is:
+
+```bash
+module load minimap2
+module load samtools
+module load bcftools
+module load htslib
+```
+
+Then install or load the Python plotting packages:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+On clusters that restrict package installs on login nodes, create a conda/mamba/pixi environment instead.
+
+### Option B. Mamba
+
+Using the included `environment.yml`:
+
+```bash
+mamba env create -f environment.yml
+mamba activate genotype-assembly2snpchip
+```
+
+Or create the same environment directly:
+
+```bash
+mamba create -n genotype-assembly2snpchip \
+  -c conda-forge -c bioconda \
+  python minimap2 samtools bcftools htslib pandas matplotlib seaborn
+
+mamba activate genotype-assembly2snpchip
+```
+
+### Option C. Conda
+
+Conda uses the same environment file:
+
+```bash
+conda env create -f environment.yml
+conda activate genotype-assembly2snpchip
+```
+
+Mamba is usually faster than conda, but either works.
+
+### Option D. Pixi
+
+Using the included `pixi.toml`:
+
+```bash
+pixi install
+pixi shell
+```
+
+Run the tests through pixi:
+
+```bash
+pixi run test-parser
+pixi run test-plots
+```
+
+### Check the Tools
+
+After activating your environment, confirm the command-line tools are visible:
+
+```bash
+minimap2 --version
+samtools --version
+bcftools --version
+python -c "import pandas, matplotlib, seaborn; print('plotting packages OK')"
+```
 
 ## Inputs
 
@@ -586,6 +695,18 @@ The match-fraction-vs-sites plot is the fastest visual QC screen. Strong identit
 The heatmap shows match fractions between assemblies and panel samples that appear among the top hits. Rank-1 cells are outlined.
 
 The QC bar plot is created when sample-summary QC columns are available. It displays call rate, missing rate, heterozygosity rate, and fraction of panel markers compared.
+
+### Example Figures
+
+The repository includes example figures generated from the bundled SoySNP50K `gtcheck` outputs in `examples/results/`. These are demonstration figures only; they show what the plotting script produces, not a universal expectation for every species or SNP-chip panel.
+
+![SoySNP50K example top hits lollipop plot](examples/figures/soy50k_example_top_hits_lollipop.png)
+
+![SoySNP50K example rank 1 versus rank 2 gap plot](examples/figures/soy50k_example_rank1_rank2_gap.png)
+
+![SoySNP50K example best-hit match fraction versus sites compared plot](examples/figures/soy50k_example_match_fraction_vs_sites.png)
+
+![SoySNP50K example top-hit heatmap](examples/figures/soy50k_example_top_hit_heatmap.png)
 
 ## Interpreting Results
 
