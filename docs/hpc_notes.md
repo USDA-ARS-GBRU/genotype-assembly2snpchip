@@ -119,7 +119,14 @@ one array job starts
   -> failed samples can be rerun without rerunning everything
 ```
 
-To convert the mapping step to an array job, first make a manifest:
+This repository includes optional array versions:
+
+```text
+sbatch/map_assemblies_to_reference_array.sbatch
+sbatch/call_panel_variants_and_gtcheck_array.sbatch
+```
+
+To run mapping as an array job, first make a manifest:
 
 ```bash
 find assemblies -maxdepth 1 \( -name '*.fa' -o -name '*.fasta' -o -name '*.fna' \) | sort > assemblies.fofn
@@ -138,7 +145,15 @@ N=$(wc -l < assemblies.fofn)
 sbatch --array=1-"$N" my_array_script.sbatch
 ```
 
-The same pattern works for BAM files before targeted SNP-chip genotyping.
+For targeted SNP-chip genotyping and `gtcheck`, make a BAM manifest:
+
+```bash
+find bams -maxdepth 1 -name '*.bam' | sort > bams.fofn
+N=$(wc -l < bams.fofn)
+sbatch --array=1-"$N" sbatch/call_panel_variants_and_gtcheck_array.sbatch
+```
+
+The panel calling array script shares panel-preparation files across tasks and uses a small lock directory to prevent multiple tasks from building those files at the same time.
 
 ## Scratch Space
 

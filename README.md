@@ -69,7 +69,9 @@ The key idea is that the query VCF should include genotypes at predefined panel 
 │   └── hpc_notes.md
 ├── sbatch/
 │   ├── map_assemblies_to_reference.sbatch
-│   └── call_panel_variants_and_gtcheck.sbatch
+│   ├── map_assemblies_to_reference_array.sbatch
+│   ├── call_panel_variants_and_gtcheck.sbatch
+│   └── call_panel_variants_and_gtcheck_array.sbatch
 ├── scripts/
 │   └── summarize_gtcheck_top_hits.py
 ├── tests/
@@ -231,6 +233,38 @@ For many within-species crop genome comparisons, `asm20` is a forgiving default.
 
 For identity checking, a slightly permissive alignment can be useful because you want to recover as many panel marker positions as possible. However, overly permissive mapping can create ambiguous placements in repetitive or duplicated regions. The later `bcftools mpileup -q` setting helps filter low-confidence alignments.
 
+### Optional Array-Job Mapping
+
+For larger projects, use the array version so each assembly gets its own SLURM task and log file.
+
+Create a manifest:
+
+```bash
+find assemblies -maxdepth 1 \( -name '*.fa' -o -name '*.fasta' -o -name '*.fna' \) | sort > assemblies.fofn
+```
+
+Submit one task per assembly:
+
+```bash
+N=$(wc -l < assemblies.fofn)
+sbatch --array=1-"$N" sbatch/map_assemblies_to_reference_array.sbatch
+```
+
+The array script uses the same default variables as the loop script, plus:
+
+```text
+ASSEMBLY_MANIFEST=assemblies.fofn
+```
+
+You can still override paths at submission time:
+
+```bash
+sbatch \
+  --array=1-"$N" \
+  --export=ALL,REFERENCE_FASTA=/path/to/ref.fa,ASSEMBLY_MANIFEST=/path/to/assemblies.fofn,BAM_DIR=/path/to/bams,PRESET=asm20 \
+  sbatch/map_assemblies_to_reference_array.sbatch
+```
+
 ## Step 2. Prepare the SNP-Chip Panel
 
 The variant-calling sbatch script automatically prepares reusable panel files:
@@ -337,6 +371,31 @@ bcftools mpileup \
 `-V indels` keeps the callset SNP-focused.
 
 `-a GQ` adds genotype quality, which is later used to set weak genotypes to missing.
+
+### Optional Array-Job Panel Calling and `gtcheck`
+
+For larger projects, use the array version after the BAM files have been created.
+
+Create a BAM manifest:
+
+```bash
+find bams -maxdepth 1 -name '*.bam' | sort > bams.fofn
+```
+
+Submit one task per BAM:
+
+```bash
+N=$(wc -l < bams.fofn)
+sbatch --array=1-"$N" sbatch/call_panel_variants_and_gtcheck_array.sbatch
+```
+
+The array script uses the same default variables as the loop script, plus:
+
+```text
+BAM_MANIFEST=bams.fofn
+```
+
+The SNP-panel preparation files in `work/panel/` are shared by all array tasks. The array script uses a small lock directory so only one task prepares those files while the others wait. If you prefer a simpler production pattern, run the loop script once on a tiny test BAM to prepare the panel files, then submit the full array.
 
 ## Step 4. Set Weak Calls to Missing
 
