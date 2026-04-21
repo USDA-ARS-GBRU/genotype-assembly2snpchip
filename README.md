@@ -1,5 +1,8 @@
 # Genotype Assembly to SNP-Chip Panel
 
+> [!NOTE]
+> This repository is under active development. Suggestions, corrections, teaching examples, and issue reports are welcome through GitHub Issues or pull requests.
+
 This repository teaches a generic workflow for asking whether a genome assembly matches a known genotype in a SNP-chip database.
 
 The same idea can be used for soybean, cotton, maize, wheat, sorghum, peanut, or any other project where you have:
@@ -29,6 +32,7 @@ The workflow was motivated by soybean/SoySNP50K work on Sapelo2, but the top-lev
 - [Step 6. Summarize the Best Matches](#step-6-summarize-the-best-matches)
 - [Step 7. Plot the `gtcheck` Summary](#step-7-plot-the-gtcheck-summary)
 - [Optional PCA and MDS Plots](#optional-pca-and-mds-plots)
+- [Troubleshooting PCA/MDS Plots](#troubleshooting-pcamds-plots)
 - [Interpreting Results](#interpreting-results)
 - [Why Site Counts Differ](#why-site-counts-differ)
 - [Adapting to Different HPC Systems](#adapting-to-different-hpc-systems)
@@ -791,6 +795,18 @@ The example below uses the tiny synthetic VCF files in `tests/fixtures/`. It is 
 **Caption:** MDS provides a distance-oriented view of the same synthetic genotype matrix. Nearby points should have more similar genotype profiles than distant points, but MDS is best used on small or focused subsets because it scales with sample-by-sample relationships. In a real project, use this plot as a companion check after `gtcheck`, not as the primary identity decision.
 
 Interpret PCA/MDS as supportive context. If an assembly's `gtcheck` top hit is convincing, the query point should usually fall near that panel sample or its genetic cluster. If `gtcheck` and PCA/MDS disagree, investigate marker missingness, reference-coordinate compatibility, sample labels, and whether the expected accession is actually represented in the panel.
+
+### Troubleshooting PCA/MDS Plots
+
+| Symptom | Likely cause | What to check or try |
+| --- | --- | --- |
+| Query sample is a strong outlier far from all panel samples | Weak marker overlap, wrong reference coordinate system, contaminated or mislabeled assembly, or too many missing genotypes | Check `panel_context_matrix_summary.tsv`, confirm the assembly was mapped to the same reference used by the SNP-chip panel, inspect the query call rate, and compare the `gtcheck` `sites_compared` value against other samples. |
+| Query sample does not appear in the plot | The query VCF had no overlapping sites, the VCF header sample name was unexpected, the file pattern did not match, or all markers were filtered out | Confirm `--query-vcfs` expands to the intended files, inspect the VCF `#CHROM` header, lower `--min-site-call-rate` temporarily for diagnosis, and check whether the query sample appears in the coordinates TSV. |
+| PCA looks dominated by one extreme sample | A low-quality sample, a very divergent accession, or a batch effect can dominate the first principal component | Plot PC2 vs PC3, remove obvious low-call-rate samples, run with a focused `--panel-samples` list, or downsample to representative panel groups. |
+| Expected close matches are separated | Reference mismatch, allele representation mismatch, strand/coordinate issues, or real biological divergence | Revisit the panel reference genome requirement, confirm the same biallelic SNP IDs/positions are being compared, inspect a few disagreeing loci manually, and compare with `gtcheck` rank gaps. |
+| Many samples stack on top of each other | The selected markers do not distinguish those samples, the panel contains near-duplicates, or the example dataset is very small | Treat stacked points as similar genotypes, use labels or metadata groups, inspect rank-1/rank-2 `gtcheck` gaps, and consider PC2 vs PC3 for additional separation. |
+| MDS is slow or fails with memory pressure | MDS depends on all pairwise sample relationships and scales poorly with large panels | Prefer PCA for the full panel, or run MDS only on a subset using `--panel-samples`, `--max-panel-samples`, or a panel list built from top `gtcheck` hits plus representative controls. |
+| Colors or labels are missing | Metadata sample names do not exactly match VCF sample names, or the wrong metadata columns were selected | Compare the metadata `sample` column to the coordinates TSV, check spelling and whitespace, and set `--sample-column`, `--group-column`, and `--label-column` explicitly. |
 
 ## Interpreting Results
 
