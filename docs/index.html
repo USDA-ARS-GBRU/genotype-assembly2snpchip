@@ -15,12 +15,105 @@
       --theme-color: #2f6f7e;
     }
 
+    body {
+      color: #24292f;
+    }
+
+    .app-name-link,
+    .sidebar ul li a,
+    .app-nav a {
+      text-decoration: none;
+    }
+
+    .app-nav {
+      margin-right: 1rem;
+    }
+
+    .app-nav li {
+      margin: 0 0.2rem;
+    }
+
+    .app-nav a {
+      color: #57606a;
+      font-weight: 500;
+    }
+
+    .app-nav a:hover,
+    .app-nav li.active > a {
+      color: #1f2328;
+    }
+
+    .sidebar {
+      border-right: 1px solid #d8dee4;
+      padding-top: 1rem;
+      width: 320px;
+    }
+
+    .sidebar-toggle {
+      background: #ffffff;
+      border-right: 1px solid #d8dee4;
+    }
+
+    .content {
+      left: 320px;
+    }
+
     .markdown-section {
       max-width: 960px;
+      padding: 2rem 3rem 4rem;
+    }
+
+    .markdown-section h1,
+    .markdown-section h2,
+    .markdown-section h3 {
+      color: #1f2328;
+    }
+
+    .markdown-section code,
+    .markdown-section pre {
+      font-family: ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .markdown-section pre {
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+      padding: 1rem;
+    }
+
+    .markdown-section blockquote {
+      border-left: 4px solid #d0d7de;
+      color: #57606a;
+    }
+
+    .markdown-section table {
+      display: table;
     }
 
     .sidebar ul li.active > a {
       font-weight: 600;
+      color: #1f2328;
+    }
+
+    .search {
+      margin-bottom: 1rem;
+      padding: 0 0.75rem;
+    }
+
+    .search input {
+      background: #ffffff;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      padding: 0.6rem 0.85rem;
+    }
+
+    @media screen and (max-width: 768px) {
+      .content {
+        left: 0;
+      }
+
+      .markdown-section {
+        padding: 1.4rem 1.1rem 3rem;
+      }
     }
   </style>
 </head>
@@ -32,9 +125,13 @@
       repo: "https://github.com/USDA-ARS-GBRU/genotype-assembly2snpchip",
       homepage: "README.md",
       loadSidebar: true,
+      loadNavbar: true,
       relativePath: true,
       subMaxLevel: 2,
       auto2top: true,
+      nameLink: {
+        "/": "#/",
+      },
       search: {
         paths: "auto",
         placeholder: "Search the docs",

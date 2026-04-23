@@ -1,0 +1,11 @@
+- [Docs Home](#/)
+- Workflow
+  - [Overview](#/overview)
+  - [Setup](#/setup)
+  - [Inputs](#/inputs)
+  - [Step 1](#/step-1-map-assemblies)
+  - [Step 2](#/step-2-prepare-panel-and-call-sites)
+  - [Step 3](#/step-3-compare-and-summarize)
+  - [Visualization](#/visualization)
+- [Repo](https://github.com/USDA-ARS-GBRU/genotype-assembly2snpchip)
+- [Issues](https://github.com/USDA-ARS-GBRU/genotype-assembly2snpchip/issues)
