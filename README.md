@@ -263,6 +263,7 @@ Best practice is to use the exact same reference FASTA used to create or coordin
 
 ## Documentation
 
+- Docs site: [docs](https://usda-ars-gbru.github.io/genotype-assembly2snpchip/)
 - Docs landing page: [docs/workflow.md](docs/workflow.md)
 - Workflow overview: [docs/overview.md](docs/overview.md)
 - Setup and environment: [docs/setup.md](docs/setup.md)
