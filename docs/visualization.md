@@ -36,7 +36,7 @@ The repository includes example figures generated from the bundled SoySNP50K `gt
 
 ![SoySNP50K example top hits lollipop plot](../examples/figures/soy50k_example_top_hits_lollipop.png)
 
-This lollipop plot shows the top-ranked SNP-chip panel matches for each query assembly. Each row is one assembly, each point is one panel sample among the top hits, point color represents rank, and point size reflects `sites_compared`. A strong identity result appears as a rank-1 point with high `match_fraction`, many compared sites, and visible separation from lower-ranked hits. Rows with several points clustered tightly together suggest ambiguous identity, close relatives, or duplicate/near-duplicate panel entries.
+This lollipop plot shows the top-ranked SNP-chip panel matches for each query assembly. Each row is one assembly, each point is one panel sample among the top hits, point color represents `sites_compared`, and point size increases with rank. A strong identity result appears as a rank-1 point with high `match_fraction`, many compared sites, and visible separation from lower-ranked hits. Rows with several points clustered tightly together suggest ambiguous identity, close relatives, or duplicate/near-duplicate panel entries.
 
 ### Figure 2. Rank-1 Versus Rank-2 Separation
 

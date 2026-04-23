@@ -1,0 +1,14 @@
+query_sample	query_sample_basename	top_panel_sample	top_discordance	top_sites_compared	top_match_fraction	top_confidence_score	second_panel_sample	second_match_fraction	match_fraction_gap_rank1_rank2	max_sites_compared_any_hit	top_sites_compared_fraction_of_panel	max_sites_compared_fraction_of_panel	query_vcf	vcf_total_sites	vcf_called_sites	vcf_missing_sites	vcf_partial_or_non_diploid_sites	vcf_call_rate	vcf_missing_rate	vcf_het_sites	vcf_hom_ref_sites	vcf_hom_alt_sites	vcf_het_rate_among_called	query_vcf_qc_error
+Benning	Benning	PI644044	550	41147	0.98663329	4.5526597	PI595645	0.98619583	0.00043745595	41147														
+Clark	Clark	PI424405B	165	41318	0.99600658	4.5977051	PI424405A	0.99588557	0.00012101263	41318														
+Harosoy	Harosoy	PI548244	444	41190	0.98922068	4.5650475	PI548573	0.98905074	0.00016994416	41190														
+Jackv3	Jackv3	PI540556	2223	40648	0.94531096	4.3569753	PI597387	0.86223184	0.083079118	40648														
+Kingawa	Kingawa	PI548359	351	41047	0.99144883	4.5738325	King	0.99130265	0.0001461739	41047														
+Minsoy	Minsoy	PI161988	374	41041	0.99088716	4.5711784	PI153262	0.99085277	3.4395495e-05	41041														
+MiyakoWhite	MiyakoWhite	PI374176	6428	41012	0.84326539	3.8899081	PI374182	0.84314347	0.00012191554	41012														
+PI407020	PI407020	PI407020	6285	40395	0.84441144	3.8896357	PI507592	0.78987498	0.054536453	40395														
+PI407303	PI407303	PI407300	820	40670	0.97983772	4.5163407	PI407303	0.9570445	0.022793214	40670														
+PI507847	PI507847	PI507847	1515	40604	0.96268841	4.4366158	PI603146	0.8996158	0.063072604	40604														
+Pekingv3	Pekingv3	Peking	734	40664	0.98194964	4.5260122	PI548402	0.98190045	4.9183553e-05	40664														
+Wm82a6	Wm82a6	PI424611A	86	41374	0.9979214	4.6071312	PI547890	0.99511771	0.0028036931	41374														
+Wm82v4	Wm82v4	PI424611A	93	41241	0.99774496	4.6049214	PI547890	0.99500497	0.0027399918	41241														

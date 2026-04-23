@@ -150,10 +150,10 @@ Example rows from `results/gtcheck_top10.tsv`:
 
 | query_sample | panel_sample | rank | sites_compared | match_fraction | confidence_score |
 | --- | --- | ---: | ---: | ---: | ---: |
-| Benning | PI 644044 | 1 | 41147 | 0.98663329 | 4.5499044 |
-| Benning | PI 595645 | 2 | 41147 | 0.98619583 | 4.5478866 |
-| Clark | PI 424405 B | 1 | 41055 | 0.98996468 | 4.5717346 |
-| Jackv3 | Dwight | 1 | 40982 | 0.98872627 | 4.5553174 |
+| Benning | PI644044 | 1 | 41147 | 0.98663329 | 4.5526597 |
+| Clark | PI424405B | 1 | 41318 | 0.99600658 | 4.5977051 |
+| Harosoy | PI548244 | 1 | 41190 | 0.98922068 | 4.5650475 |
+| Jackv3 | PI540556 | 1 | 40648 | 0.94531096 | 4.3569753 |
 
 ### 4. Optional: add GRIN metadata
 
@@ -176,9 +176,9 @@ Example rows from `results/gtcheck_top10.grin_enriched.tsv`:
 | query_sample | panel_sample | genotyped_sample | PLANT NAME | TAXONOMY | ORIGIN | GRIN LOOKUP STATUS |
 | --- | --- | --- | --- | --- | --- | --- |
 | Benning | PI 644044 | PI 644044 | G95-Ben2403 | Glycine max (L.) Merr. | Georgia, United States | ok |
-| Benning | PI 595645 | PI 595645 | Benning | Glycine max (L.) Merr. | Georgia, United States | ok |
-| Clark | PI 424405 B | PI 424405 B | KAS 530-16 | Glycine max (L.) Merr. | Jeollabuk-do, Korea, South | ok |
-| Jackv3 | Dwight | PI 597386 | Dwight | Glycine max (L.) Merr. | Illinois, United States | ok |
+| Clark | PI424405B | PI 424405 B | KAS 530-16 | Glycine max (L.) Merr. | Jeollabuk-do, Korea, South | ok |
+| Harosoy | PI548244 | PI 548244 | T267H | Glycine max (L.) Merr. | Illinois, United States | ok |
+| Jackv3 | PI540556 | PI 540556 | Jack | Glycine max (L.) Merr. | Illinois, United States | ok |
 
 ### 5. Optional: plot summary figures
 
@@ -203,7 +203,7 @@ figures/gtcheck_top_hit_heatmap.png
 
 ![Example lollipop plot of top SNP-chip hits per assembly](examples/figures/soy50k_example_top_hits_lollipop.png)
 
-This lollipop plot shows the top-ranked SNP-chip panel matches for each query assembly. Each row is one assembly, each point is one panel sample among the top hits, point color represents rank, and point size reflects `sites_compared`. A strong identity result appears as a rank-1 point with high `match_fraction`, many compared sites, and visible separation from lower-ranked hits.
+This lollipop plot shows the top-ranked SNP-chip panel matches for each query assembly. Each row is one assembly, each point is one panel sample among the top hits, point color represents `sites_compared`, and point size increases with rank. A strong identity result appears as a rank-1 point with high `match_fraction`, many compared sites, and visible separation from lower-ranked hits.
 
 ### 6. Optional: plot PCA / MDS context
 
@@ -223,6 +223,13 @@ figures/panel_context_pca_coordinates.tsv
 figures/panel_context_pca_pc1_pc2.png
 figures/panel_context_pca_pc2_pc3.png
 figures/panel_context_matrix_summary.tsv
+```
+
+If you run `--method both` or `--method mds`, the script also writes:
+
+```text
+figures/panel_context_mds_coordinates.tsv
+figures/panel_context_mds1_mds2.png
 ```
 
 #### Figure: PCA Context for Query Assemblies

@@ -1,0 +1,328 @@
+{
+  "entries": {
+    "FC31630": {
+      "GRIN ID": "",
+      "GRIN LOOKUP STATUS": "not_found",
+      "GRIN MATCH METHOD": "name",
+      "ORIGIN": "",
+      "PLANT NAME": "",
+      "TAXONOMY": "",
+      "genotyped_sample": "FC31630"
+    },
+    "IA1008": {
+      "GRIN ID": "",
+      "GRIN LOOKUP STATUS": "not_found",
+      "GRIN MATCH METHOD": "name",
+      "ORIGIN": "",
+      "PLANT NAME": "",
+      "TAXONOMY": "",
+      "genotyped_sample": "IA1008"
+    },
+    "KING": {
+      "GRIN ID": "",
+      "GRIN LOOKUP STATUS": "not_found",
+      "GRIN MATCH METHOD": "name",
+      "ORIGIN": "",
+      "PLANT NAME": "",
+      "TAXONOMY": "",
+      "genotyped_sample": "King"
+    },
+    "PEKING": {
+      "GRIN ID": "1224988",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "name",
+      "ORIGIN": "China",
+      "PLANT NAME": "Peking",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 297543"
+    },
+    "PI 153262": {
+      "GRIN ID": "1136672",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Belgium",
+      "PLANT NAME": "Roumanie",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 153262"
+    },
+    "PI 161988": {
+      "GRIN ID": "1139710",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Austria",
+      "PLANT NAME": "Giesseler",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 161988"
+    },
+    "PI 374169": {
+      "GRIN ID": "1280253",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Madhya Pradesh, India",
+      "PLANT NAME": "I-7",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 374169"
+    },
+    "PI 374176": {
+      "GRIN ID": "1280260",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Madhya Pradesh, India",
+      "PLANT NAME": "U-4",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 374176"
+    },
+    "PI 374182": {
+      "GRIN ID": "1280266",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Madhya Pradesh, India",
+      "PLANT NAME": "D-4",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 374182"
+    },
+    "PI 407020": {
+      "GRIN ID": "1306678",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Akita, Japan",
+      "PLANT NAME": "RB 1072",
+      "TAXONOMY": "Glycine soja Siebold & Zucc.",
+      "genotyped_sample": "PI 407020"
+    },
+    "PI 407030": {
+      "GRIN ID": "1306688",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Akita, Japan",
+      "PLANT NAME": "RB 1072",
+      "TAXONOMY": "Glycine soja Siebold & Zucc.",
+      "genotyped_sample": "PI 407030"
+    },
+    "PI 407300": {
+      "GRIN ID": "1306958",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Jiangsu Sheng, China",
+      "PLANT NAME": "",
+      "TAXONOMY": "Glycine soja Siebold & Zucc.",
+      "genotyped_sample": "PI 407300"
+    },
+    "PI 407302": {
+      "GRIN ID": "1306960",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Jiangsu Sheng, China",
+      "PLANT NAME": "",
+      "TAXONOMY": "Glycine soja Siebold & Zucc.",
+      "genotyped_sample": "PI 407302"
+    },
+    "PI 407303": {
+      "GRIN ID": "1306961",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Jiangsu Sheng, China",
+      "PLANT NAME": "",
+      "TAXONOMY": "Glycine soja Siebold & Zucc.",
+      "genotyped_sample": "PI 407303"
+    },
+    "PI 424405 A": {
+      "GRIN ID": "1487020",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Jeollabuk-do, Korea, South",
+      "PLANT NAME": "KAS 530-16",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 424405 A"
+    },
+    "PI 424405 B": {
+      "GRIN ID": "1487021",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Jeollabuk-do, Korea, South",
+      "PLANT NAME": "KAS 530-16",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 424405 B"
+    },
+    "PI 424611 A": {
+      "GRIN ID": "1487080",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Gyeongsangbuk-do, Korea, South",
+      "PLANT NAME": "KAS 681-24",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 424611 A"
+    },
+    "PI 424611 B": {
+      "GRIN ID": "1487079",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Gyeongsangbuk-do, Korea, South",
+      "PLANT NAME": "KAS 681-24",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 424611 B"
+    },
+    "PI 424613": {
+      "GRIN ID": "1319883",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Gyeongsangbuk-do, Korea, South",
+      "PLANT NAME": "KAS 681-26",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 424613"
+    },
+    "PI 507592": {
+      "GRIN ID": "1402528",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Akita, Japan",
+      "PLANT NAME": "NIAR 020018",
+      "TAXONOMY": "Glycine soja Siebold & Zucc.",
+      "genotyped_sample": "PI 507592"
+    },
+    "PI 507847": {
+      "GRIN ID": "1402783",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Amur, Russian Federation",
+      "PLANT NAME": "VIR 8926",
+      "TAXONOMY": "Glycine soja Siebold & Zucc.",
+      "genotyped_sample": "PI 507847"
+    },
+    "PI 522209 B": {
+      "GRIN ID": "1488395",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Primorye, Russian Federation",
+      "PLANT NAME": "VIR 8493",
+      "TAXONOMY": "Glycine soja Siebold & Zucc.",
+      "genotyped_sample": "PI 522209 B"
+    },
+    "PI 540556": {
+      "GRIN ID": "1435492",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Illinois, United States",
+      "PLANT NAME": "Jack",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 540556"
+    },
+    "PI 547493": {
+      "GRIN ID": "1442429",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Illinois, United States",
+      "PLANT NAME": "L67-3483",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 547493"
+    },
+    "PI 547890": {
+      "GRIN ID": "1442826",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Illinois, United States",
+      "PLANT NAME": "L77-1794",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 547890"
+    },
+    "PI 548244": {
+      "GRIN ID": "1443180",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Illinois, United States",
+      "PLANT NAME": "T267H",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 548244"
+    },
+    "PI 548359": {
+      "GRIN ID": "1443295",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Beijing Shi, China",
+      "PLANT NAME": "Kingwa",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 548359"
+    },
+    "PI 548402": {
+      "GRIN ID": "1443338",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Beijing Shi, China",
+      "PLANT NAME": "Peking",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 548402"
+    },
+    "PI 548573": {
+      "GRIN ID": "1443509",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Ontario, Canada",
+      "PLANT NAME": "Harosoy",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 548573"
+    },
+    "PI 548575": {
+      "GRIN ID": "1443511",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Illinois, United States",
+      "PLANT NAME": "Harosoy 63",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 548575"
+    },
+    "PI 595645": {
+      "GRIN ID": "1529214",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Georgia, United States",
+      "PLANT NAME": "Benning",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 595645"
+    },
+    "PI 597387": {
+      "GRIN ID": "1541868",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Illinois, United States",
+      "PLANT NAME": "Pana",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 597387"
+    },
+    "PI 603146": {
+      "GRIN ID": "1556731",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Russian Federation",
+      "PLANT NAME": "VIR 8926",
+      "TAXONOMY": "Glycine soja Siebold & Zucc.",
+      "genotyped_sample": "PI 603146"
+    },
+    "PI 644044": {
+      "GRIN ID": "1714684",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Georgia, United States",
+      "PLANT NAME": "G95-Ben2403",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 644044"
+    },
+    "PI 644045": {
+      "GRIN ID": "1714685",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Georgia, United States",
+      "PLANT NAME": "G95-Ben2448",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 644045"
+    },
+    "PI 84751": {
+      "GRIN ID": "1120889",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "Kyonggi, Korea, South",
+      "PLANT NAME": "LG-59",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 84751"
+    }
+  }
+}
