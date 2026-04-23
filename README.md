@@ -58,16 +58,75 @@ python -c "import pandas, matplotlib, seaborn, sklearn, openpyxl; print('Python 
 
 ## Quick Start
 
+### Prepare the expected inputs
+
+Place your main inputs in these locations or edit the sbatch variables to point elsewhere:
+
+```text
+reference/genome.fa
+assemblies/*.fa
+data/snp_chip_panel.vcf.gz
+data/snp_chip_panel.vcf.gz.tbi
+```
+
+Create the FASTA index if needed:
+
+```bash
+samtools faidx reference/genome.fa
+```
+
+Before submitting jobs, review these items in each sbatch script:
+
+- `#SBATCH --partition`, `--account`, `--cpus-per-task`, `--mem`, `--time`
+- module names or environment activation commands
+- workflow variables such as `REFERENCE_FASTA`, `ASSEMBLY_DIR`, `BAM_DIR`, `PANEL_VCF`, `RESULTS_DIR`, `PANEL_DIR`, `MIN_MQ`, and `MIN_GQ`
+
 ### 1. Map assemblies
 
 ```bash
 sbatch sbatch/map_assemblies_to_reference.sbatch
 ```
 
+Edit first:
+
+```text
+REFERENCE_FASTA=reference/genome.fa
+ASSEMBLY_DIR=assemblies
+BAM_DIR=bams
+PRESET=asm20
+```
+
+Expected outputs:
+
+```text
+bams/<sample>.bam
+bams/<sample>.bam.bai
+```
+
 ### 2. Genotype panel sites and run `gtcheck`
 
 ```bash
 sbatch sbatch/call_panel_variants_and_gtcheck.sbatch
+```
+
+Edit first:
+
+```text
+REFERENCE_FASTA=reference/genome.fa
+PANEL_VCF=data/snp_chip_panel.vcf.gz
+BAM_DIR=bams
+RESULTS_DIR=results
+PANEL_DIR=work/panel
+MIN_MQ=5
+MIN_GQ=20
+```
+
+Expected outputs:
+
+```text
+work/panel/panel.biallelic.snps.vcf.gz
+results/<sample>.panel.filtered.diploid.vcf.gz
+results/<sample>*.gtcheck.tsv
 ```
 
 ### 3. Summarize top hits
@@ -78,6 +137,13 @@ python scripts/summarize_gtcheck_top_hits.py \
   -n 10 \
   --min-sites 1000 \
   -o results/gtcheck_top10.tsv
+```
+
+Expected outputs:
+
+```text
+results/gtcheck_top10.tsv
+results/gtcheck_top10.sample_summary.tsv
 ```
 
 ### 4. Optional: add GRIN metadata
@@ -128,7 +194,14 @@ Best practice is to use the exact same reference FASTA used to create or coordin
 
 ## Documentation
 
-- Full workflow tutorial: [docs/workflow.md](docs/workflow.md)
+- Docs landing page: [docs/workflow.md](docs/workflow.md)
+- Workflow overview: [docs/overview.md](docs/overview.md)
+- Setup and environment: [docs/setup.md](docs/setup.md)
+- Inputs: [docs/inputs.md](docs/inputs.md)
+- Step-by-step workflow: [docs/step-1-map-assemblies.md](docs/step-1-map-assemblies.md), [docs/step-2-prepare-panel-and-call-sites.md](docs/step-2-prepare-panel-and-call-sites.md), [docs/step-3-compare-and-summarize.md](docs/step-3-compare-and-summarize.md)
+- Visualization: [docs/visualization.md](docs/visualization.md)
+- Interpreting results: [docs/interpreting-results.md](docs/interpreting-results.md)
+- Testing: [docs/testing.md](docs/testing.md)
 - HPC adaptation notes: [docs/hpc_notes.md](docs/hpc_notes.md)
 - Soybean example materials: [examples/README.md](examples/README.md)
 
