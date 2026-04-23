@@ -32,29 +32,29 @@ These plots help answer:
 
 The repository includes example figures generated from the bundled SoySNP50K `gtcheck` outputs in `examples/results/`. These are demonstration figures only; they show what the plotting script produces, not a universal expectation for every species or SNP-chip panel.
 
-The canonical example table source for these figures is [examples/results/example_gtcheck_top3.grin_enriched.tsv](../examples/results/example_gtcheck_top3.grin_enriched.tsv), alongside its companion ranked-hit and sample-summary files in the same directory.
+The canonical example table source for these figures is `examples/results/example_gtcheck_top3.grin_enriched.tsv`, alongside its companion ranked-hit and sample-summary files in the same directory.
 
 ### Figure 1. Top Hits Per Assembly
 
-![SoySNP50K example top hits lollipop plot](../examples/figures/soy50k_example_top_hits_lollipop.png)
+![SoySNP50K example top hits lollipop plot](assets/figures/soy50k_example_top_hits_lollipop.png)
 
 This lollipop plot shows the top-ranked SNP-chip panel matches for each query assembly. Each row is one assembly, each point is one panel sample among the top hits, and point color represents `sites_compared`. Hits are ordered from left to right by `match_fraction`, so the strongest-supported matches usually appear toward the right side of each row. Rows with several points clustered tightly together suggest ambiguous identity, close relatives, or duplicate/near-duplicate panel entries.
 
 ### Figure 2. Rank-1 Versus Rank-2 Separation
 
-![SoySNP50K example rank 1 versus rank 2 gap plot](../examples/figures/soy50k_example_rank1_rank2_gap.png)
+![SoySNP50K example rank 1 versus rank 2 gap plot](assets/figures/soy50k_example_rank1_rank2_gap.png)
 
 This plot shows the difference between the best and second-best `match_fraction` for each assembly. Larger values mean the top hit is well separated from the next candidate, which supports a cleaner identity assignment. Very small gaps mean the first and second hits are nearly tied; in those cases, the result may still be useful, but it should be interpreted as a related-line or cluster-level match rather than a uniquely resolved accession.
 
 ### Figure 3. Match Fraction Versus Sites Compared
 
-![SoySNP50K example best-hit match fraction versus sites compared plot](../examples/figures/soy50k_example_match_fraction_vs_sites.png)
+![SoySNP50K example best-hit match fraction versus sites compared plot](assets/figures/soy50k_example_match_fraction_vs_sites.png)
 
 This scatterplot is the fastest QC overview. The x-axis shows how many SNP-chip markers supported the top comparison, and the y-axis shows the top-hit `match_fraction`. The strongest results are in the upper-right: high concordance supported by many sites. Points with high match fraction but few sites may be promising but under-supported. Points with many sites but lower match fraction often deserve biological or metadata follow-up because the evidence is strong enough to suggest a real mismatch, divergence, or panel-label issue.
 
 ### Figure 4. Top-Hit Match Fraction Heatmap
 
-![SoySNP50K example top-hit heatmap](../examples/figures/soy50k_example_top_hit_heatmap.png)
+![SoySNP50K example top-hit heatmap](assets/figures/soy50k_example_top_hit_heatmap.png)
 
 This heatmap summarizes the top-hit neighborhood across assemblies. Rows are query assemblies and columns are panel samples that appeared among the top-ranked hits. Darker green cells indicate higher `match_fraction`, and outlined cells mark rank-1 hits. This view is useful for spotting repeated best hits, clusters of related accessions, and assemblies that share the same small group of candidate panel matches.
 
@@ -95,13 +95,13 @@ The example below uses the tiny synthetic VCF files in `tests/fixtures/`. It is 
 
 ### Figure: PCA Context for Query Assemblies
 
-![Example PCA plot for synthetic panel and query samples](../examples/figures/tiny_panel_context_pca_pc1_pc2.svg)
+![Example PCA plot for synthetic panel and query samples](assets/figures/tiny_panel_context_pca_pc1_pc2.svg)
 
 **Caption:** PCA places the synthetic query samples into the same coordinate space as the SNP-chip panel samples. In a real project, a query assembly that matches a SNP-chip accession should fall near that accession or its expected genetic cluster. Here, `query_A` falls with the first synthetic panel cluster and `query_C` falls toward the second synthetic panel cluster. Large separation from the expected panel group would suggest checking sample labels, marker overlap, missing data, and reference-genome compatibility.
 
 ### Figure: MDS Context for Query Assemblies
 
-![Example MDS plot for synthetic panel and query samples](../examples/figures/tiny_panel_context_mds1_mds2.svg)
+![Example MDS plot for synthetic panel and query samples](assets/figures/tiny_panel_context_mds1_mds2.svg)
 
 **Caption:** MDS provides a distance-oriented view of the same synthetic genotype matrix. Nearby points should have more similar genotype profiles than distant points, but MDS is best used on small or focused subsets because it scales with sample-by-sample relationships. In a real project, use this plot as a companion check after `gtcheck`, not as the primary identity decision.
 
