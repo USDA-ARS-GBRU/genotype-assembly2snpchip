@@ -30,6 +30,7 @@ The workflow was motivated by soybean/SoySNP50K work on Sapelo2, but the top-lev
 - [Step 4. Set Weak Calls to Missing](#step-4-set-weak-calls-to-missing)
 - [Step 5. Compare to the Panel with `bcftools gtcheck`](#step-5-compare-to-the-panel-with-bcftools-gtcheck)
 - [Step 6. Summarize the Best Matches](#step-6-summarize-the-best-matches)
+- [Optional GRIN Metadata Enrichment](#optional-grin-metadata-enrichment)
 - [Step 7. Plot the `gtcheck` Summary](#step-7-plot-the-gtcheck-summary)
 - [Optional PCA and MDS Plots](#optional-pca-and-mds-plots)
 - [Troubleshooting PCA/MDS Plots](#troubleshooting-pcamds-plots)
@@ -138,12 +139,15 @@ Do not map assemblies to one reference genome version and compare them to a SNP-
 │   └── call_panel_variants_and_gtcheck_array.sbatch
 ├── scripts/
 │   ├── summarize_gtcheck_top_hits.py
+│   ├── enrich_gtcheck_top_hits_with_grin.py
 │   ├── plot_gtcheck_summary.py
 │   └── plot_panel_pca_mds.py
 ├── tests/
 │   ├── fixtures/tiny.gtcheck.tsv
 │   ├── run_tiny_test.sh
-│   └── run_tiny_plot_test.sh
+│   ├── run_tiny_plot_test.sh
+│   ├── run_tiny_pca_test.sh
+│   └── run_tiny_grin_test.sh
 └── examples/
     ├── README_with_qc_and_sitecount_notes.md
     ├── minimap-A2G.sbatch
@@ -177,7 +181,7 @@ On an HPC cluster, load or install:
 - `bcftools`
 - `htslib`, including `bgzip` and `tabix`
 - Python 3
-- `pandas`, `matplotlib`, `seaborn`, and `scikit-learn` for plotting and PCA/MDS
+- `pandas`, `matplotlib`, `seaborn`, `scikit-learn`, and `openpyxl` for plotting, PCA/MDS, and Excel output
 
 Install the Python plotting dependencies locally or in a conda environment:
 
@@ -224,7 +228,7 @@ Or create the same environment directly:
 ```bash
 mamba create -n genotype-assembly2snpchip \
   -c conda-forge -c bioconda \
-  python minimap2 samtools bcftools htslib pandas matplotlib seaborn scikit-learn
+  python minimap2 samtools bcftools htslib pandas matplotlib seaborn scikit-learn openpyxl
 
 mamba activate genotype-assembly2snpchip
 ```
@@ -255,6 +259,7 @@ Run the tests through pixi:
 pixi run test-parser
 pixi run test-plots
 pixi run test-pca
+pixi run test-grin
 ```
 
 ### Check the Tools
@@ -265,7 +270,7 @@ After activating your environment, confirm the command-line tools are visible:
 minimap2 --version
 samtools --version
 bcftools --version
-python -c "import pandas, matplotlib, seaborn, sklearn; print('plotting packages OK')"
+python -c "import pandas, matplotlib, seaborn, sklearn, openpyxl; print('Python packages OK')"
 ```
 
 ## Inputs
@@ -668,6 +673,42 @@ The script is species-agnostic. It does not assume soybean, SoySNP50K, a particu
 `confidence_score`: `match_fraction * log10(sites_compared)`. This is a simple helper score that rewards high concordance while slightly penalizing tiny site counts. Do not treat it as a formal statistic.
 
 `match_fraction_gap_rank1_rank2`: in the sample summary file, the difference between the best and second-best hit. A large gap is reassuring; a tiny gap suggests ambiguity or close relatedness.
+
+### Optional GRIN Metadata Enrichment
+
+If you want a curator-friendly spreadsheet after ranking the top hits, you can enrich the table with metadata from the USDA GRIN Global BrAPI service. This is useful when panel sample names are PI accessions or named cultivars and you want normalized accession formatting plus columns such as `PLANT NAME`, `TAXONOMY`, and `ORIGIN`.
+
+The enrichment script normalizes PI accessions such as `PI647962` to `PI 647962` and `PI424405B` to `PI 424405 B`, caches GRIN lookups, and writes both TSV and XLSX outputs:
+
+```bash
+python scripts/enrich_gtcheck_top_hits_with_grin.py \
+  --input results/gtcheck_top10.tsv \
+  --crop soybean
+```
+
+By default it writes:
+
+```text
+results/gtcheck_top10.grin_enriched.tsv
+results/gtcheck_top10.grin_enriched.xlsx
+results/gtcheck_top10.grin_cache.json
+```
+
+The output keeps the original `panel_sample` column and adds:
+
+- `genotyped_sample`: normalized or canonical accession returned by GRIN
+- `PLANT NAME`: GRIN display name
+- `TAXONOMY`: assembled from the GRIN taxon fields
+- `ORIGIN`: parsed from the GRIN seed-source metadata when available
+
+For repeated work or testing, you can reuse the cache and avoid live queries:
+
+```bash
+python scripts/enrich_gtcheck_top_hits_with_grin.py \
+  --input results/gtcheck_top10.tsv \
+  --cache-json results/gtcheck_top10.grin_cache.json \
+  --offline
+```
 
 ## Step 7. Plot the `gtcheck` Summary
 

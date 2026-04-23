@@ -1,0 +1,4 @@
+query_sample	panel_sample	genotyped_sample	PLANT NAME	TAXONOMY	ORIGIN	GRIN ID	GRIN LOOKUP STATUS	GRIN MATCH METHOD	rank	discordance	sites_compared	match_fraction
+query_A	PI424405B	PI 424405 B	KAS 530-16	Glycine max (L.) Merr.	North Korea	1705085	ok	accession	1	10	100	0.9
+query_B	Dwight	PI 597386	Dwight	Glycine max (L.) Merr.	Illinois, United States	1709691	ok	name	1	12	100	0.88
+query_C	UnknownLine	UnknownLine					cache_miss_offline	offline	1	30	90	0.6666667

@@ -1,0 +1,4 @@
+query_sample	panel_sample	rank	discordance	sites_compared	match_fraction
+query_A	PI424405B	1	10	100	0.9
+query_B	Dwight	1	12	100	0.88
+query_C	UnknownLine	1	30	90	0.6666667

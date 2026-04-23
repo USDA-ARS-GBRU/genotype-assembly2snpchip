@@ -1,0 +1,22 @@
+{
+  "entries": {
+    "DWIGHT": {
+      "GRIN ID": "1709691",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "name",
+      "ORIGIN": "Illinois, United States",
+      "PLANT NAME": "Dwight",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 597386"
+    },
+    "PI 424405 B": {
+      "GRIN ID": "1705085",
+      "GRIN LOOKUP STATUS": "ok",
+      "GRIN MATCH METHOD": "accession",
+      "ORIGIN": "North Korea",
+      "PLANT NAME": "KAS 530-16",
+      "TAXONOMY": "Glycine max (L.) Merr.",
+      "genotyped_sample": "PI 424405 B"
+    }
+  }
+}

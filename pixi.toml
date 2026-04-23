@@ -15,8 +15,10 @@ pandas = ">=1.5"
 matplotlib = ">=3.7"
 seaborn = ">=0.12"
 scikit-learn = ">=1.3"
+openpyxl = ">=3.1"
 
 [tasks]
 test-parser = "bash tests/run_tiny_test.sh"
 test-plots = "bash tests/run_tiny_plot_test.sh"
 test-pca = "bash tests/run_tiny_pca_test.sh"
+test-grin = "bash tests/run_tiny_grin_test.sh"
