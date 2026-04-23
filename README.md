@@ -11,7 +11,7 @@ It maps one or more genome assemblies to a reference genome, genotypes the assem
 
 The workflow was motivated by soybean/SoySNP50K work on Sapelo2, but the scripts and documentation are written for the generic case: any species, any SNP-chip-style panel VCF, and any SLURM-style HPC where `minimap2`, `samtools`, `bcftools`, and Python are available.
 
-Docs are also organized as a Docsify site under [docs/index.html](docs/index.html). On GitHub Pages, publish the repository `docs/` folder to serve that documentation as a browsable site.
+Docs are also organized as a live Docsify site at [https://usda-ars-gbru.github.io/genotype-assembly2snpchip/](https://usda-ars-gbru.github.io/genotype-assembly2snpchip/).
 
 ## Why
 
