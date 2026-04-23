@@ -32,6 +32,8 @@ These plots help answer:
 
 The repository includes example figures generated from the bundled SoySNP50K `gtcheck` outputs in `examples/results/`. These are demonstration figures only; they show what the plotting script produces, not a universal expectation for every species or SNP-chip panel.
 
+The canonical example table source for these figures is [examples/results/example_gtcheck_top3.grin_enriched.tsv](../examples/results/example_gtcheck_top3.grin_enriched.tsv), alongside its companion ranked-hit and sample-summary files in the same directory.
+
 ### Figure 1. Top Hits Per Assembly
 
 ![SoySNP50K example top hits lollipop plot](../examples/figures/soy50k_example_top_hits_lollipop.png)

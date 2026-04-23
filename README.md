@@ -155,6 +155,8 @@ Example rows from `results/gtcheck_top10.tsv`:
 | Harosoy | PI548244 | 1 | 41190 | 0.98922068 | 4.5650475 |
 | Jackv3 | PI540556 | 1 | 40648 | 0.94531096 | 4.3569753 |
 
+Here, `panel_sample` is the raw sample name from the SNP-chip panel VCF. If the panel uses compact accession strings such as `PI424405B`, those names remain unchanged in the summary table.
+
 ### 4. Optional: add GRIN metadata
 
 ```bash
@@ -179,6 +181,8 @@ Example rows from `results/gtcheck_top10.grin_enriched.tsv`:
 | Clark | PI424405B | PI 424405 B | KAS 530-16 | Glycine max (L.) Merr. | Jeollabuk-do, Korea, South | ok |
 | Harosoy | PI548244 | PI 548244 | T267H | Glycine max (L.) Merr. | Illinois, United States | ok |
 | Jackv3 | PI540556 | PI 540556 | Jack | Glycine max (L.) Merr. | Illinois, United States | ok |
+
+The GRIN-enriched table is where accession normalization happens. In other words, `panel_sample` preserves the raw panel label, while `genotyped_sample` shows the normalized or canonical accession returned by GRIN.
 
 ### 5. Optional: plot summary figures
 
