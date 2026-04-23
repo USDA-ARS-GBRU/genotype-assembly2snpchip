@@ -163,6 +163,14 @@ python scripts/enrich_gtcheck_top_hits_with_grin.py \
   --crop soybean
 ```
 
+Expected outputs:
+
+```text
+results/gtcheck_top10.grin_enriched.tsv
+results/gtcheck_top10.grin_enriched.xlsx
+results/gtcheck_top10.grin_cache.json
+```
+
 Example rows from `results/gtcheck_top10.grin_enriched.tsv`:
 
 | query_sample | panel_sample | genotyped_sample | PLANT NAME | TAXONOMY | ORIGIN | GRIN LOOKUP STATUS |
@@ -182,6 +190,15 @@ python scripts/plot_gtcheck_summary.py \
   --prefix gtcheck
 ```
 
+Expected outputs:
+
+```text
+figures/gtcheck_top_hits_lollipop.png
+figures/gtcheck_rank1_rank2_gap.png
+figures/gtcheck_match_fraction_vs_sites.png
+figures/gtcheck_top_hit_heatmap.png
+```
+
 #### Figure: Top Hits Per Assembly
 
 ![Example lollipop plot of top SNP-chip hits per assembly](examples/figures/soy50k_example_top_hits_lollipop.png)
@@ -197,6 +214,15 @@ python scripts/plot_panel_pca_mds.py \
   --out-dir figures \
   --prefix panel_context \
   --method pca
+```
+
+Expected outputs:
+
+```text
+figures/panel_context_pca_coordinates.tsv
+figures/panel_context_pca_pc1_pc2.png
+figures/panel_context_pca_pc2_pc3.png
+figures/panel_context_matrix_summary.tsv
 ```
 
 #### Figure: PCA Context for Query Assemblies
