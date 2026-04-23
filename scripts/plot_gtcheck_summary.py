@@ -19,7 +19,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
-from matplotlib.lines import Line2D
 import pandas as pd
 import seaborn as sns
 
@@ -184,13 +183,6 @@ def plot_top_hits_lollipop(top_hits: pd.DataFrame, summary: pd.DataFrame) -> plt
         y = list(df["query_sample"].cat.categories).index(query)
         ax.hlines(y=y, xmin=sub["match_fraction"].min(), xmax=sub["match_fraction"].max(), color="#bbbbbb", lw=1.0, zorder=1)
 
-    rank_min = float(df["rank"].min())
-    rank_max = float(df["rank"].max())
-    if rank_max == rank_min:
-        df["marker_size"] = 120.0
-    else:
-        df["marker_size"] = 70.0 + (df["rank"] - rank_min) * (220.0 - 70.0) / (rank_max - rank_min)
-
     color_norm = Normalize(vmin=float(df["sites_compared"].min()), vmax=float(df["sites_compared"].max()))
     cmap = plt.get_cmap("viridis")
 
@@ -198,7 +190,7 @@ def plot_top_hits_lollipop(top_hits: pd.DataFrame, summary: pd.DataFrame) -> plt
         df["match_fraction"],
         df["query_sample"],
         c=df["sites_compared"],
-        s=df["marker_size"],
+        s=135,
         cmap=cmap,
         norm=color_norm,
         edgecolors="white",
@@ -222,33 +214,6 @@ def plot_top_hits_lollipop(top_hits: pd.DataFrame, summary: pd.DataFrame) -> plt
 
     colorbar = fig.colorbar(ScalarMappable(norm=color_norm, cmap=cmap), ax=ax, pad=0.02)
     colorbar.set_label("Sites compared")
-
-    rank_values = sorted(df["rank"].dropna().astype(int).unique())
-    if len(rank_values) > 4:
-        rank_values = rank_values[:3] + [rank_values[-1]]
-    legend_handles = []
-    for rank in rank_values:
-        size = float(df.loc[df["rank"] == rank, "marker_size"].iloc[0])
-        legend_handles.append(
-            Line2D(
-                [0],
-                [0],
-                marker="o",
-                color="none",
-                label=f"Rank {rank}",
-                markerfacecolor="#666666",
-                markeredgecolor="white",
-                markeredgewidth=0.6,
-                markersize=(size ** 0.5) / 1.3,
-            )
-        )
-    ax.legend(
-        handles=legend_handles,
-        loc="center left",
-        bbox_to_anchor=(1.16, 0.5),
-        frameon=False,
-        title="Marker size",
-    )
     return fig
 
 

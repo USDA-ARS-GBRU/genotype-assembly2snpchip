@@ -207,7 +207,7 @@ figures/gtcheck_top_hit_heatmap.png
 
 ![Example lollipop plot of top SNP-chip hits per assembly](examples/figures/soy50k_example_top_hits_lollipop.png)
 
-This lollipop plot shows the top-ranked SNP-chip panel matches for each query assembly. Each row is one assembly, each point is one panel sample among the top hits, point color represents `sites_compared`, and point size increases with rank. A strong identity result appears as a rank-1 point with high `match_fraction`, many compared sites, and visible separation from lower-ranked hits.
+This lollipop plot shows the top-ranked SNP-chip panel matches for each query assembly. Each row is one assembly, each point is one panel sample among the top hits, and point color represents `sites_compared`. Because hits are ordered from left to right by `match_fraction`, the best-supported matches usually appear toward the right side of each row.
 
 ### 6. Optional: plot PCA / MDS context
 
