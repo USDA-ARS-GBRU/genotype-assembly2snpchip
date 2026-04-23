@@ -180,11 +180,12 @@ def plot_top_hits_lollipop(top_hits: pd.DataFrame, summary: pd.DataFrame) -> plt
     fig, ax = plt.subplots(figsize=(12, height))
 
     for query, sub in df.groupby("query_sample", observed=True):
-        y = list(df["query_sample"].cat.categories).index(query)
         sub = sub.sort_values("match_fraction")
+        if len(sub) < 2:
+            continue
         ax.plot(
             sub["match_fraction"],
-            [y] * len(sub),
+            [query] * len(sub),
             color="#b7b7b7",
             lw=2.0,
             alpha=0.9,
