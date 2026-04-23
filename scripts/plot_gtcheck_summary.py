@@ -181,7 +181,16 @@ def plot_top_hits_lollipop(top_hits: pd.DataFrame, summary: pd.DataFrame) -> plt
 
     for query, sub in df.groupby("query_sample", observed=True):
         y = list(df["query_sample"].cat.categories).index(query)
-        ax.hlines(y=y, xmin=sub["match_fraction"].min(), xmax=sub["match_fraction"].max(), color="#bbbbbb", lw=1.0, zorder=1)
+        sub = sub.sort_values("match_fraction")
+        ax.plot(
+            sub["match_fraction"],
+            [y] * len(sub),
+            color="#b7b7b7",
+            lw=2.0,
+            alpha=0.9,
+            solid_capstyle="round",
+            zorder=2,
+        )
 
     color_norm = Normalize(vmin=float(df["sites_compared"].min()), vmax=float(df["sites_compared"].max()))
     cmap = plt.get_cmap("viridis")
