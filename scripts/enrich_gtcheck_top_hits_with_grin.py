@@ -6,6 +6,9 @@ This script is meant for the common post-processing step where a ranked
 `gtcheck_top_hits.tsv` table is enriched with accession metadata from the USDA
 GRIN Global BrAPI endpoint. It normalizes PI accession formatting, caches GRIN
 lookups, and can write both TSV and XLSX outputs.
+
+BrAPI endpoint usage adapted from get_displayNames_list.py
+by Rex Nelson, Ames, IA Rex.Nelson@usda.gov
 """
 from __future__ import annotations
 
