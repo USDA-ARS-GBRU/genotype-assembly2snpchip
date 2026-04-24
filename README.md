@@ -308,7 +308,7 @@ Versioning information is provided in <changelog.txt> or <changelog.md> or [rele
 
 ## Acknowledgments
 
-Thanks to everyone from the GBRU team.
+Thanks to everyone from the GBRU team. Thanks to Rex Nelson for assistance with the BrAPI endpoint for GRIN data.
 
 ### Funding Support
 This is a project supported by the U.S. Department of Agriculture - Agricultural Research Service (USDA-ARS) - Genomics and Bioinformatics Research Unit (GBRU) through CRIS Project No. 6066-21310-006-000-D.
