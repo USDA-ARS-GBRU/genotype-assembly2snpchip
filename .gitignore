@@ -39,3 +39,4 @@ tests/tmp/
 
 # Keep tiny synthetic VCF fixtures for tests, while ignoring real VCF inputs.
 !tests/fixtures/*.vcf
+examples/results/example_gtcheck_top3.grin_enriched.xlsx
