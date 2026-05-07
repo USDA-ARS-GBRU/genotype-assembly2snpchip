@@ -23,6 +23,8 @@ THREADS=16
 
 Also update the `#SBATCH` lines and the cluster-specific module or environment block.
 
+The `gtcheck` stage later in this same script uses `bcftools gtcheck --keep-refs`, so the environment block must provide `bcftools >= 1.23`.
+
 ## What This Step Produces
 
 Reusable panel files:
@@ -83,6 +85,16 @@ bcftools +fixploidy -- -f 2
 ```
 
 That prevents `gtcheck` from skipping useful rows because only diploid `FORMAT/GT` fields are supported.
+
+### 5. Run `gtcheck` with all reference-only sites retained
+
+The final comparison step in the sbatch script uses:
+
+```bash
+bcftools gtcheck -u GT,GT -E 0 --keep-refs
+```
+
+That `--keep-refs` option is why the workflow requires `bcftools >= 1.23`.
 
 ## Array Version
 

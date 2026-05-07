@@ -18,11 +18,44 @@ cd "${SLURM_SUBMIT_DIR:-$PWD}"
 #   N=$(wc -l < bams.fofn)
 #   sbatch --array=1-"$N" sbatch/call_panel_variants_and_gtcheck_array.sbatch
 
+# Portable environment loading. Edit these lines for your HPC.
+# Important: this workflow requires bcftools >= 1.23 because `bcftools gtcheck`
+# is run with `--keep-refs`, and that option is not present in bcftools 1.21.
+# On clusters such as Sapelo2, this may mean activating a conda or mamba
+# environment instead of using an older site module.
+#
+# Example:
+#   source ~/miniforge3/etc/profile.d/conda.sh
+#   conda activate genotype-assembly2snpchip
 if command -v module >/dev/null 2>&1; then
     module purge || true
-    module load bcftools || module load BCFtools/1.21-GCC-13.3.0 || true
+    module load bcftools || module load BCFtools || true
     module load htslib || module load HTSlib || true
 fi
+
+require_bcftools_123() {
+    local version raw major minor
+    raw=$(bcftools --version 2>/dev/null | awk 'NR==1{print $2}')
+    version=${raw%%-*}
+    major=${version%%.*}
+    minor=${version#*.}
+    minor=${minor%%.*}
+
+    if [[ -z "$raw" || -z "$major" || -z "$minor" ]]; then
+        echo "ERROR: unable to determine bcftools version from 'bcftools --version'"
+        echo "       Load or activate bcftools >= 1.23 before running this script."
+        exit 1
+    fi
+
+    if (( major < 1 || (major == 1 && minor < 23) )); then
+        echo "ERROR: bcftools $raw is too old for this workflow."
+        echo "       This script uses 'bcftools gtcheck --keep-refs', which was added in bcftools 1.23."
+        echo "       Load a newer module or activate a conda/mamba environment with bcftools >= 1.23."
+        exit 1
+    fi
+}
+
+require_bcftools_123
 
 REFERENCE_FASTA="${REFERENCE_FASTA:-reference/genome.fa}"
 PANEL_VCF="${PANEL_VCF:-data/snp_chip_panel.vcf.gz}"
@@ -113,6 +146,7 @@ echo "Array job:     ${SLURM_ARRAY_JOB_ID:-NA}"
 echo "Array task:    $SLURM_ARRAY_TASK_ID"
 echo "Reference:     $REFERENCE_FASTA"
 echo "Panel VCF:     $PANEL_VCF"
+echo "bcftools:      $(bcftools --version | awk 'NR==1{print $2}')"
 echo "BAM:           $bam"
 echo "Sample:        $sample"
 echo "Results dir:   $RESULTS_DIR"

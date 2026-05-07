@@ -31,10 +31,12 @@ On an HPC cluster, load or install:
 
 - `minimap2`
 - `samtools`
-- `bcftools`
+- `bcftools >= 1.23`
 - `htslib`, including `bgzip` and `tabix`
 - Python 3
 - `pandas`, `matplotlib`, `seaborn`, `scikit-learn`, and `openpyxl`
+
+`bcftools >= 1.23` matters here because the workflow uses `bcftools gtcheck --keep-refs`, and that option was added in bcftools 1.23.
 
 ## Environment Options
 
@@ -74,6 +76,8 @@ bcftools --version
 python -c "import pandas, matplotlib, seaborn, sklearn, openpyxl; print('Python packages OK')"
 ```
 
+If `bcftools --version` prints `1.21` or another older release, do not submit the `gtcheck` jobs yet. Load a newer module or activate the repository conda/mamba environment first.
+
 ## SLURM Parameters to Review First
 
 Before submitting jobs, open the `sbatch/` scripts and adjust:
@@ -83,6 +87,6 @@ Before submitting jobs, open the `sbatch/` scripts and adjust:
 - `#SBATCH --cpus-per-task`
 - `#SBATCH --mem`
 - `#SBATCH --time`
-- module names or environment activation blocks
+- module names or environment activation blocks, especially the one that provides `bcftools >= 1.23`
 
 For more cluster-specific guidance, see [HPC Notes](hpc_notes.md).

@@ -9,7 +9,7 @@
 
 It maps one or more genome assemblies to a reference genome, genotypes the assemblies at known SNP-chip marker positions, compares those marker profiles to a multi-sample panel VCF with `bcftools gtcheck`, and summarizes the closest matches.
 
-The workflow was motivated by soybean/SoySNP50K work on Sapelo2, but the scripts and documentation are written for the generic case: any species, any SNP-chip-style panel VCF, and any SLURM-style HPC where `minimap2`, `samtools`, `bcftools`, and Python are available.
+The workflow was motivated by soybean/SoySNP50K work on Sapelo2, but the scripts and documentation are written for the generic case: any species, any SNP-chip-style panel VCF, and any SLURM-style HPC where `minimap2`, `samtools`, `bcftools >= 1.23`, and Python are available.
 
 Docs are also organized as a live Docsify site at [https://usda-ars-gbru.github.io/genotype-assembly2snpchip/](https://usda-ars-gbru.github.io/genotype-assembly2snpchip/).
 
@@ -28,7 +28,7 @@ That distinction matters because reference-state genotypes are informative for i
 - one or more query assembly FASTA files
 - the reference FASTA used by, or coordinate-compatible with, the SNP-chip panel
 - a bgzipped and indexed multi-sample SNP-chip / marker-panel VCF
-- an HPC or Linux environment with `minimap2`, `samtools`, `bcftools`, `htslib`, and Python 3
+- an HPC or Linux environment with `minimap2`, `samtools`, `bcftools >= 1.23`, `htslib`, and Python 3
 
 ## Install
 
@@ -58,6 +58,18 @@ python -m pip install -r requirements.txt
 python -c "import pandas, matplotlib, seaborn, sklearn, openpyxl; print('Python packages OK')"
 ```
 
+### Important `bcftools` version note
+
+This workflow requires `bcftools >= 1.23` because `bcftools gtcheck` is run with `--keep-refs`. That option was added in `bcftools 1.23`.
+
+On Sapelo2, an older module such as `BCFtools/1.21-GCC-13.3.0` is too old for this workflow. In that case, activate a conda or mamba environment that installs `bcftools >= 1.23`.
+
+Quick check:
+
+```bash
+bcftools --version
+```
+
 ## Quick Start
 
 ### Prepare the expected inputs
@@ -80,7 +92,7 @@ samtools faidx reference/genome.fa
 Before submitting jobs, review these items in each sbatch script:
 
 - `#SBATCH --partition`, `--account`, `--cpus-per-task`, `--mem`, `--time`
-- module names or environment activation commands
+- module names or environment activation commands, especially for `bcftools >= 1.23`
 - workflow variables such as `REFERENCE_FASTA`, `ASSEMBLY_DIR`, `BAM_DIR`, `PANEL_VCF`, `RESULTS_DIR`, `PANEL_DIR`, `MIN_MQ`, and `MIN_GQ`
 
 ### 1. Map assemblies
@@ -122,6 +134,8 @@ PANEL_DIR=work/panel
 MIN_MQ=5
 MIN_GQ=20
 ```
+
+Also make sure the environment block at the top of the script provides `bcftools >= 1.23`. If your cluster module is older, activate a conda or mamba environment instead.
 
 Expected outputs:
 

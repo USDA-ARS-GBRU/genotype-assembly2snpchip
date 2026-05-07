@@ -15,6 +15,8 @@ bcftools gtcheck \
   "$diploid_vcf"
 ```
 
+This exact command requires `bcftools >= 1.23` because `--keep-refs` was added in bcftools 1.23. If your cluster module is older, such as bcftools 1.21, activate a newer conda or mamba environment before running the workflow.
+
 Key points:
 
 - `-u GT,GT` forces genotype-vs-genotype comparison

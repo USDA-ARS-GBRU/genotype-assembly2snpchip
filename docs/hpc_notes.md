@@ -30,6 +30,8 @@ module load htslib
 
 If a cluster uses conda, mamba, Apptainer/Singularity, or preloaded software paths instead of modules, replace the module block with the local environment setup.
 
+For this repository, the important constraint is `bcftools >= 1.23`. The workflow uses `bcftools gtcheck --keep-refs`, and that option is not present in bcftools 1.21.
+
 ## Sapelo2-Style Notes
 
 Sapelo2 commonly uses EasyBuild-style module names. Depending on what is installed and visible in your module tree, commands may look like:
@@ -37,7 +39,15 @@ Sapelo2 commonly uses EasyBuild-style module names. Depending on what is install
 ```bash
 module load minimap2/2.28-GCCcore-13.2.0
 module load SAMtools/1.21-GCC-13.3.0
-module load BCFtools/1.21-GCC-13.3.0
+module load BCFtools
+```
+
+One Sapelo2-specific catch: an older module such as `BCFtools/1.21-GCC-13.3.0` is too old for this workflow because it does not include `gtcheck --keep-refs`. If Sapelo2 does not provide a newer module, activate a conda or mamba environment with `bcftools >= 1.23` instead:
+
+```bash
+source ~/miniforge3/etc/profile.d/conda.sh
+conda activate genotype-assembly2snpchip
+bcftools --version
 ```
 
 The older soybean example scripts in `examples/` use this style. If those exact versions are not available, search:
@@ -71,7 +81,7 @@ module spider bcftools
 If the exact tools are not available as modules, a conda/mamba environment is often the simplest portable option:
 
 ```bash
-mamba create -n snpchip-id -c bioconda -c conda-forge minimap2 samtools bcftools
+mamba create -n snpchip-id -c bioconda -c conda-forge minimap2 samtools 'bcftools>=1.23'
 conda activate snpchip-id
 ```
 
@@ -96,7 +106,7 @@ module spider samtools
 module spider bcftools
 ```
 
-If modules are unavailable or version-conflicted, a conda/mamba environment with Bioconda packages is a reasonable fallback.
+If modules are unavailable or version-conflicted, a conda/mamba environment with Bioconda packages is a reasonable fallback. For this workflow, that fallback should provide `bcftools >= 1.23`.
 
 ## Loop Jobs vs Array Jobs
 
@@ -181,6 +191,7 @@ Before submitting a full run, check:
 - Reference contig names match the SNP-chip VCF contig names.
 - A single assembly maps successfully.
 - A single BAM produces a filtered panel-site VCF.
+- `bcftools --version` reports `1.23` or newer.
 - `bcftools gtcheck` reports nonzero sites compared.
 - The Python summary script works on a tiny fixture or one real `gtcheck.tsv`.
 

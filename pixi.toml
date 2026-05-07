@@ -9,7 +9,7 @@ platforms = ["linux-64", "osx-64", "osx-arm64"]
 python = ">=3.9"
 minimap2 = "*"
 samtools = "*"
-bcftools = "*"
+bcftools = ">=1.23"
 htslib = "*"
 pandas = ">=1.5"
 matplotlib = ">=3.7"
