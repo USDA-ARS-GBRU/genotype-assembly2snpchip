@@ -146,6 +146,7 @@ for bam in "${bams[@]}"; do
             -m \
             -C alleles \
             -T "$panel_alleles" \
+            -i \
             -V indels \
             -a GQ \
         | bcftools norm \
