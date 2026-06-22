@@ -155,10 +155,6 @@ bcftools call
 
 → genotype only known SoySNP50K alleles
 
--i 1
-
-→ include all target sites (even weak ones)
-
 ⸻
 
 bcftools gtcheck

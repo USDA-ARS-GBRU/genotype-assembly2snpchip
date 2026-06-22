@@ -170,7 +170,6 @@ if [[ ! -s "$raw_vcf" || ! -s "${raw_vcf}.tbi" ]]; then
         -m \
         -C alleles \
         -T "$panel_alleles" \
-        -i 1 \
         -V indels \
         -a GQ \
     | bcftools norm \

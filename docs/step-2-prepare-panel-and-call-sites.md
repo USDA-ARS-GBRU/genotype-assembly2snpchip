@@ -61,7 +61,7 @@ This is the central logic:
 
 ```bash
 bcftools mpileup -f "$REFERENCE_FASTA" -T "$panel_snps" "$bam" \
-| bcftools call -m -C alleles -T "$panel_alleles" -i 1 -V indels -a GQ
+| bcftools call -m -C alleles -T "$panel_alleles" -V indels -a GQ
 ```
 
 The important idea is that the workflow is not doing generic variant discovery. It is asking for genotypes at the predefined SNP-chip markers.
