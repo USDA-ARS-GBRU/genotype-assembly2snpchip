@@ -155,6 +155,10 @@ bcftools call
 
 → genotype only known SoySNP50K alleles
 
+-i
+
+→ output also sites missed by mpileup but present in the target file
+
 ⸻
 
 bcftools gtcheck

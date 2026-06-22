@@ -61,10 +61,12 @@ This is the central logic:
 
 ```bash
 bcftools mpileup -f "$REFERENCE_FASTA" -T "$panel_snps" "$bam" \
-| bcftools call -m -C alleles -T "$panel_alleles" -V indels -a GQ
+| bcftools call -m -C alleles -T "$panel_alleles" -i -V indels -a GQ
 ```
 
 The important idea is that the workflow is not doing generic variant discovery. It is asking for genotypes at the predefined SNP-chip markers.
+
+Here, `-i` means `--insert-missed`: output sites present in the target file even when `mpileup` would otherwise miss them. In this workflow, that helps preserve the intended SNP-chip target-site structure when calling against the panel allele list.
 
 ### 3. Set weak calls to missing
 

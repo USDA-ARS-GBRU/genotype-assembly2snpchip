@@ -133,6 +133,7 @@ for bam in "${bamFiles[@]}"; do
             -m \
             -C alleles \
             -T "$panelALLELES" \
+            -i \
             -V indels \
             -a GQ \
         | bcftools norm \
