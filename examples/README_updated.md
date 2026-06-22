@@ -325,7 +325,6 @@ The recommended call stage uses:
 bcftools call \
     -C alleles \
     -T soy50k.biallelic.snps.vcf.gz \
-    -i 1 \
     -V indels \
     -f GQ
 ```
@@ -334,7 +333,6 @@ Why:
 
 - `-C alleles` tells `bcftools call` to genotype the known alleles in the target panel.
 - `-T panel.vcf.gz` ensures those exact SoySNP50K sites are the calling targets.
-- `-i 1` helps preserve target-site output rather than silently collapsing the query back into a sparse variant-only file.
 - `-V indels` keeps this workflow SNP-only.
 - `-f GQ` adds genotype quality.
 
@@ -568,7 +566,6 @@ bcftools mpileup \
     -Ou \
     -C alleles \
     -T "$panelSNP" \
-    -i 1 \
     -V indels \
     -f GQ \
 | bcftools norm \
