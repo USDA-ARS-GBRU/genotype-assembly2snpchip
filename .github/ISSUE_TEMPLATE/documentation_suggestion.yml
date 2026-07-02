@@ -1,0 +1,29 @@
+name: "Documentation suggestion"
+description: "Suggest a clarification, teaching improvement, or docs correction."
+title: "[Docs]: "
+labels:
+  - documentation
+body:
+  - type: textarea
+    id: page
+    attributes:
+      label: What page or section needs improvement?
+      description: Name the file, page, or heading if you know it.
+      placeholder: README quick start step 2...
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is unclear or incorrect?
+      description: Explain what a reader might misunderstand.
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested improvement
+      description: What wording, figure, example, or structure would help?
+

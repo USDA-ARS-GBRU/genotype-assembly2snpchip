@@ -1,0 +1,51 @@
+name: "Workflow question"
+description: "Ask a question about running or interpreting the workflow."
+title: "[Question]: "
+labels:
+  - question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Questions are welcome. A little context helps us answer faster and more accurately.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What are you trying to understand or decide?
+      placeholder: I want to know whether...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Workflow stage
+      options:
+        - setup / install
+        - mapping assemblies
+        - panel-site genotyping
+        - gtcheck
+        - summary tables
+        - GRIN enrichment
+        - plotting
+        - PCA / MDS
+        - interpreting results
+        - HPC adaptation
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Relevant context
+      description: Include species, cluster, panel type, and anything else that matters.
+
+  - type: textarea
+    id: attempted
+    attributes:
+      label: What have you already tried or read?
+      description: Link or mention the docs page, README section, or command you already used.
+

@@ -1,0 +1,68 @@
+name: "Bug report"
+description: "Report a workflow, script, plotting, or documentation bug."
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please include the smallest amount of context needed to reproduce the problem.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected instead.
+      placeholder: The workflow failed during...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - sbatch mapping workflow
+        - sbatch panel genotyping / gtcheck workflow
+        - summary script
+        - GRIN enrichment
+        - plotting
+        - PCA / MDS
+        - documentation
+        - examples
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: command
+    attributes:
+      label: Command or script used
+      description: Paste the command, script section, or workflow step that triggered the bug.
+      render: bash
+
+  - type: textarea
+    id: error
+    attributes:
+      label: Error message or unexpected output
+      description: Paste the relevant error text or explain the incorrect result.
+      render: text
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment details
+      description: Include cluster name, OS if local, and tool versions when relevant.
+      placeholder: |
+        Cluster: Sapelo2
+        bcftools --version:
+        samtools --version:
+        minimap2 --version:
+
+  - type: textarea
+    id: inputs
+    attributes:
+      label: Input context
+      description: Describe the reference, panel VCF, and query inputs enough for us to reason about the issue.
+
