@@ -17,6 +17,10 @@
   - Builds lollipop, rank-gap, match-vs-sites, and heatmap summary figures.
 - `scripts/plot_panel_pca_mds.py`
   - Builds PCA and optional MDS context figures directly from VCF input.
+- `scripts/check_workflow_invariants.sh`
+  - Verifies repo-level workflow invariants across sbatch scripts and docs.
+- `scripts/regenerate_example_outputs.sh`
+  - Rebuilds the bundled soybean example summaries, enrichment outputs, and figures.
 
 ## Documentation
 
@@ -44,4 +48,3 @@ When a task crosses multiple surfaces, prefer this update order:
 1. fix the canonical script or sbatch file
 2. update the generic docs
 3. update example or soybean-specific notes if they mention the same behavior
-

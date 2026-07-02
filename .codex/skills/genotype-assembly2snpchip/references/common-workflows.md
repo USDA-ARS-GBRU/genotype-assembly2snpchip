@@ -38,6 +38,7 @@ Start with:
 - `rg` for the exact flag, script, or output being discussed
 - `git log -- <file>` if behavior may have changed recently
 - repo docs plus `examples/` if the issue smells like legacy soybean carryover
+- `bash scripts/check_workflow_invariants.sh` for a fast repo-specific drift check
 
 ## Add new post-processing output
 
@@ -48,3 +49,18 @@ Update:
 - `README.md` quick-start expected outputs
 - deeper `docs/` page explaining interpretation
 
+## Regenerate bundled example outputs
+
+Use:
+
+```bash
+bash scripts/regenerate_example_outputs.sh
+```
+
+This rebuilds:
+
+- `examples/results/example_gtcheck_top3.tsv`
+- `examples/results/example_gtcheck_top3.sample_summary.tsv`
+- `examples/results/example_gtcheck_top3.grin_enriched.tsv`
+- `examples/results/example_gtcheck_top3.grin_enriched.xlsx`
+- `examples/figures/soy50k_example_*`

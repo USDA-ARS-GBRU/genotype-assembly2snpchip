@@ -61,6 +61,7 @@ Use the smallest useful check:
   - `bash -n sbatch/call_panel_variants_and_gtcheck.sbatch`
   - `bash -n sbatch/call_panel_variants_and_gtcheck_array.sbatch`
 - Tiny tests:
+  - `bash scripts/check_workflow_invariants.sh`
   - `bash tests/run_tiny_test.sh`
   - `bash tests/run_tiny_plot_test.sh`
   - `bash tests/run_tiny_pca_test.sh`
@@ -73,10 +74,13 @@ Use the smallest useful check:
 
 If a change only affects docs or agent scaffolding, lightweight review is enough.
 
+To rebuild the bundled soybean example outputs deterministically, run:
+
+- `bash scripts/regenerate_example_outputs.sh`
+
 ## When You Need More Detail
 
 Read these references only if the task needs them:
 
 - `references/repo-map.md` for a quick file map and task routing
 - `references/common-workflows.md` for the usual agent tasks in this repo
-

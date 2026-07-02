@@ -12,10 +12,17 @@ python -c "import pandas, matplotlib, seaborn, sklearn, openpyxl; print('Python 
 ## Smoke tests
 
 ```bash
+bash scripts/check_workflow_invariants.sh
 bash tests/run_tiny_test.sh
 bash tests/run_tiny_plot_test.sh
 bash tests/run_tiny_pca_test.sh
 bash tests/run_tiny_grin_test.sh
+```
+
+## Rebuild bundled example outputs
+
+```bash
+bash scripts/regenerate_example_outputs.sh
 ```
 
 ## Common edit surfaces
@@ -33,3 +40,4 @@ bash tests/run_tiny_grin_test.sh
 - Does the change affect example figures or bundled outputs?
 - Is there a lightweight validation step to run?
 
+For a review-specific prompt, use `.agents/pr-review-agent.md`.

@@ -27,6 +27,11 @@
 - `figures/gtcheck_*.png`
 - `figures/panel_context_*.png`
 
+## Repo maintenance helpers
+
+- `scripts/check_workflow_invariants.sh`
+- `scripts/regenerate_example_outputs.sh`
+
 ## Canonical scripts
 
 - `scripts/summarize_gtcheck_top_hits.py`
@@ -51,4 +56,3 @@
 - changing only one sbatch variant
 - forgetting to update example docs after workflow changes
 - interpreting strong match fraction without checking `sites_compared`
-
