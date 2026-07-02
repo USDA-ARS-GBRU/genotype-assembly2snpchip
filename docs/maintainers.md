@@ -6,6 +6,8 @@ This page is for repository maintainers and agents, not first-time workflow user
 
 The goal is to keep workflow logic, docs, examples, and maintainer tooling aligned.
 
+This page also serves as a lightweight Pages rebuild surface when maintainer-facing docs need to change without touching the user workflow pages.
+
 ## Most useful files
 
 - `scripts/check_workflow_invariants.sh`

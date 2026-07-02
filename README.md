@@ -328,7 +328,11 @@ Versioning information is provided in <changelog.txt> or <changelog.md> or [rele
 
 ## Acknowledgments
 
-Thanks to everyone from the GBRU team. Thanks to Rex Nelson for assistance with the BrAPI endpoint for GRIN data.
+This work was developed with support from the USDA-ARS Genomics and Bioinformatics Research Unit (GBRU), especially Grant Billings and Amanda Hulse-Kemp.
+
+Thanks to Rex Nelson of USDA-ARS, lead curator of SoyBase, for assistance with the BrAPI endpoint and curation context for GRIN and soybean resources.
+
+Additional thanks to Wayne Parrott, Zenglu Li, Dallas Kreisa, and Jake Spittle from the University of Georgia Institute of Plant Breeding, Genetics, and Genomics for feedback, testing, and workflow discussion.
 
 ### Funding Support
 This is a project supported by the U.S. Department of Agriculture - Agricultural Research Service (USDA-ARS) - Genomics and Bioinformatics Research Unit (GBRU) through CRIS Project No. 6066-21310-006-000-D.
