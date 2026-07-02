@@ -1,0 +1,48 @@
+name: Repo Checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up conda environment
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: genotype-assembly2snpchip
+          environment-file: environment.yml
+          auto-activate-base: false
+          use-mamba: true
+
+      - name: Show key tool versions
+        run: |
+          bcftools --version
+          samtools --version
+          minimap2 --version
+          python --version
+
+      - name: Check workflow invariants
+        run: bash scripts/check_workflow_invariants.sh
+
+      - name: Run tiny parser test
+        run: PYTHON=python bash tests/run_tiny_test.sh
+
+      - name: Run tiny plot test
+        run: PYTHON=python bash tests/run_tiny_plot_test.sh
+
+      - name: Run tiny PCA test
+        run: PYTHON=python bash tests/run_tiny_pca_test.sh
+
+      - name: Run tiny GRIN test
+        run: PYTHON=python bash tests/run_tiny_grin_test.sh

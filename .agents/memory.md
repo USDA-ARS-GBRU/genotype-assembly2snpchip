@@ -31,6 +31,8 @@
 
 - `scripts/check_workflow_invariants.sh`
 - `scripts/regenerate_example_outputs.sh`
+- `.agents/pr-review-agent.md`
+- `.agents/release-checklist.md`
 
 ## Canonical scripts
 

@@ -41,3 +41,5 @@ bash scripts/regenerate_example_outputs.sh
 - Is there a lightweight validation step to run?
 
 For a review-specific prompt, use `.agents/pr-review-agent.md`.
+
+For release prep, use `.agents/release-checklist.md`.

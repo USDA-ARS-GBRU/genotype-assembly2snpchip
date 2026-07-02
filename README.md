@@ -13,6 +13,8 @@ The workflow was motivated by soybean/SoySNP50K work on Sapelo2, but the scripts
 
 Docs are also organized as a live Docsify site at [https://usda-ars-gbru.github.io/genotype-assembly2snpchip/](https://usda-ars-gbru.github.io/genotype-assembly2snpchip/).
 
+Maintainer and agent scaffolding lives in `.agents/`, `.codex/skills/`, and `scripts/check_workflow_invariants.sh`.
+
 ## Why
 
 This repository is for identity checking, not whole-genome variant discovery.
