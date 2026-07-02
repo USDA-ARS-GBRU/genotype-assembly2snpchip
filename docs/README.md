@@ -32,6 +32,11 @@ It does that by mapping one or more assemblies to a reference genome, genotyping
 - [Testing](testing.md)
 - [HPC Notes](hpc_notes.md)
 
+## Maintainers
+
+- [Maintainer Notes](maintainers.md)
+- [Contributing](https://github.com/USDA-ARS-GBRU/genotype-assembly2snpchip/blob/main/CONTRIBUTING.md)
+
 ## Suggested Reading Path
 
 For a first pass through the workflow:

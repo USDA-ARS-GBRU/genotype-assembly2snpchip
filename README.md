@@ -1,6 +1,7 @@
 # Genotype Assembly to SNP-Chip Panel
 
 [![Repo Checks](https://github.com/USDA-ARS-GBRU/genotype-assembly2snpchip/actions/workflows/repo-checks.yml/badge.svg)](https://github.com/USDA-ARS-GBRU/genotype-assembly2snpchip/actions/workflows/repo-checks.yml)
+[![Docs: GitHub Pages](https://img.shields.io/badge/Docs-GitHub%20Pages-2ea44f)](https://usda-ars-gbru.github.io/genotype-assembly2snpchip/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 > [!NOTE]

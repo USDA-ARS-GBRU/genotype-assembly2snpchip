@@ -12,6 +12,9 @@
   * [Interpreting Results](interpreting-results.md)
   * [Testing](testing.md)
   * [HPC Notes](hpc_notes.md)
+* Maintainers
+  * [Maintainer Notes](maintainers.md)
+  * [Contributing](https://github.com/USDA-ARS-GBRU/genotype-assembly2snpchip/blob/main/CONTRIBUTING.md)
 * Repository
   * [Quick Start README](https://github.com/USDA-ARS-GBRU/genotype-assembly2snpchip#readme)
   * [Workflow Landing Page](workflow.md)
