@@ -1,0 +1,7 @@
+interface:
+  display_name: "Genotype Assembly2SNPchip"
+  short_description: "Operate the SNP-chip identity workflow repo"
+  default_prompt: "Use $genotype-assembly2snpchip to work safely inside this repository's workflow, scripts, docs, and HPC templates."
+
+policy:
+  allow_implicit_invocation: true
