@@ -1,5 +1,8 @@
 # Genotype Assembly to SNP-Chip Panel
 
+[![Repo Checks](https://github.com/USDA-ARS-GBRU/genotype-assembly2snpchip/actions/workflows/repo-checks.yml/badge.svg)](https://github.com/USDA-ARS-GBRU/genotype-assembly2snpchip/actions/workflows/repo-checks.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 > [!NOTE]
 > This repository is under active development. Suggestions, corrections, teaching examples, and issue reports are welcome through GitHub Issues or pull requests.
 

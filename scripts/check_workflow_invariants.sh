@@ -11,7 +11,7 @@ fail() {
 require_fixed() {
     local needle="$1"
     local file="$2"
-    if ! rg -Fq -- "$needle" "$file"; then
+    if ! grep -Fq -- "$needle" "$file"; then
         fail "Missing expected text '$needle' in $file"
     fi
 }
@@ -19,7 +19,7 @@ require_fixed() {
 require_regex() {
     local pattern="$1"
     local file="$2"
-    if ! rg -q -- "$pattern" "$file"; then
+    if ! grep -Eq -- "$pattern" "$file"; then
         fail "Missing expected pattern '$pattern' in $file"
     fi
 }
@@ -31,7 +31,7 @@ do
     require_fixed "--keep-refs" "$file"
     require_fixed "+fixploidy" "$file"
     require_regex '^[[:space:]]+-i[[:space:]]*(\\)?[[:space:]]*$' "$file"
-    if rg -q -- '^[[:space:]]+-i[[:space:]]+1([[:space:]]|\\|$)' "$file"; then
+    if grep -Eq -- '^[[:space:]]+-i[[:space:]]+1([[:space:]]|\\|$)' "$file"; then
         fail "Found forbidden '-i 1' in $file"
     fi
 done

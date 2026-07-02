@@ -22,7 +22,8 @@ jobs:
         with:
           activate-environment: genotype-assembly2snpchip
           environment-file: environment.yml
-          auto-activate-base: false
+          auto-activate: true
+          conda-remove-defaults: true
           use-mamba: true
 
       - name: Show key tool versions
